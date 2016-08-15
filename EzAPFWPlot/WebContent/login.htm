@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" type="image/ico" href="/images/favicon.ico" />
+    <title>应用服务平台登录界面</title>
+    <link href="lcss/styles.css" type="text/css" media="screen" rel="stylesheet" />
+    <link href="lcss/jquery-ui-1.8.16.custom.css" rel="stylesheet">
+    <script src="lcss/jquery-1.6.2.min.js"></script>
+    <script src="lcss/jquery-ui-1.8.16.custom.min.js"></script>
+    <script type="text/javascript" src="lcss/jquery.keyboard.extension-typing.js"></script>
+    <link type="text/css" href="lcss/keyboard.css" rel="stylesheet" />
+    <script type="text/javascript" src="lcss/jquery.keyboard.js"></script>
+
+    
+    
+
+</head>
+<body id="login" onkeydown="onloadlogin()">
+    <div id="wrappertop">
+    </div>
+    <div id="wrapper">
+        <div id="content">
+            <div id="header">
+                
+            </div>
+            <div id="darkbanner" class="banner320">
+                <h2>服务资源中心</h2>
+            </div>
+            <div id="darkbannerwrap">
+            </div>
+            
+            <fieldset class="form">
+                <p>
+                    <label class="loginlabel" for="username">
+                      账        号:</label>
+                    <input class="logininput ui-keyboard-input ui-widget-content ui-corner-all" name="user_name"
+                        id="username" type="text" value="" />
+                </p>
+                <p>
+                    <label class="loginlabel" for="password">
+                        密       码:</label>
+                   <span>
+                        <input class="logininput ui-keyboard-input ui-widget-content ui-corner-all" name="user_password" id="user_password" type="password" aria-haspopup="true" role="textbox"><img id="passwd" class="tooltip" alt="Click to open the virtual keyboard" title="Click to open the virtual keyboard" src="lcss/keyboard.png"></span>
+                            
+                     </p>
+                    <p><span style="width:200px;height:25px; ">
+                    <label  for="error" style="color:red;text-align: center;margin-left:80px;" id="error"></label>
+                    <br/>  <br/> 
+                     </span>
+                    </p>
+                <button id="loginbtn" type="button" class="positive" name="Submit"   >
+                    <img src="lcss/key.png" alt="Announcement" />登&nbsp;&nbsp; 录</button>
+               
+            </fieldset>
+        </div>
+    </div>
+    <div id="wrapperbottom_branding">
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#user_password').keyboard({
+                openOn: null,
+                stayOpen: true,
+                layout: 'qwerty'
+            }).addTyping();
+            $('#passwd').click(function() {
+                $('#user_password').getkeyboard().reveal();
+            })
+
+            $(".logininput").blur(function() {
+                if ($(this).val() == "") {
+                    $(this).css("border-color", "red");
+                                    }
+                else
+                    $(this).css("border-color", "#D9D6C4");
+            })
+
+            $("#loginbtn").click(function() {
+                var k = 0;
+                var ajaxhtml = "";
+                $(".logininput").each(function(i, obj) {
+                    if ($(obj).val() == "") {
+                        k++;
+                        $(this).css("border-color", "red");
+                        $(this).focus();
+                        return false;
+                    }
+                });
+                if (k != 0) return;
+                ajaxhtml = $("#loginbtn").html();
+                $("#loginbtn").html("Loading....  <img src='loading.gif' alt='Announcement' /> ");
+                $("#loginbtn").attr("disabled", "disabled");
+                login();
+
+            })
+        });
+        function login(){
+        	var user=$("#username").val();
+        	var pass=$("#user_password").val();
+        	if(user==null||user==""||pass==null||pass=="")
+        		{
+        		  $("#error").html("用户名或密码不可以为空！");
+        		  return;
+        		}
+        	  $("#error").html("");
+        	var param=new Object();
+        	param.password=pass;
+        	param.username=user;
+        	$.ajax({
+        		type : "POST",
+        		url : "login/to_login.do",
+        		data : param,
+        		dataType : "json",// 此处只能填写json或text，否则回调函数无法正确执行
+        		type : "POST",
+        		cache : false,
+        		success : function(data) {
+        			var results=data.result;
+        			if(results=="success")
+        				{
+        				      window.location.href="index.html";
+        				}else{
+        					 $("#error").html("用户名或密码有误，请重新登录！");
+        					 $("#loginbtn").html("<img src='lcss/key.png' alt='Announcement' />登&nbsp;&nbsp; 录</button>");
+       		                  $("#loginbtn").removeAttr("disabled", "disabled");
+        				}
+        			
+        		}});
+        	 
+        }
+        function onloadlogin(){
+       			if(event.keyCode == 13)    
+       			{     
+       				 login();
+       			}
+       		 
+       }
+        
+        
+       
+        
+    </script>
+</body>

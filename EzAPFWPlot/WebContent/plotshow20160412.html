@@ -1,0 +1,327 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+    <meta charset="utf-8" />
+    <title>广州大数据服务资源中心</title>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+    <!--Basic Styles-->
+  
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" media="screen" />
+    <link id="bootstrap-rtl-link" href="" rel="stylesheet" />
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="assets/css/weather-icons.min.css" rel="stylesheet" />
+    <!--Fonts-->
+     <!--Beyond styles-->
+
+    <link id="beyond-link" href="assets/css/beyond.min.css" rel="stylesheet" type="text/css" />
+     <link rel="stylesheet" href="assets/js/zTree/css/zTreeStyle/zTreeStyle.css" />
+    <link href="assets/css/demo.min.css" rel="stylesheet" />
+    <link href="assets/css/typicons.min.css" rel="stylesheet" />
+    <link href="assets/css/animate.min.css" rel="stylesheet" />
+    <link id="skin-link" href="" rel="stylesheet" type="text/css" />
+
+    <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
+
+<script type="text/javascript">
+	function qw1() {
+		 
+		window.location.href = "publishservice.html";
+	}
+	function qw02() {
+
+		window.location.href = "applylist.html?status=1";
+
+	}
+	function qw03() {
+		window.location.href = "fwsqdealliststatus.html?status=1";
+	}
+	function qw04() {
+		window.location.href = "index.html";
+
+	}
+	function loadsvg(){
+		var svgob=document.getElementById("imgsvg");
+		var xmlns="http://www.w3.org/2000/svg";
+		var svg_img=document.createElementNS(xmlns, "image");
+		svg_img.href.baseVal="ppt.png";
+		svg_img.setAttributeNS(null,"x",0);
+		svg_img.setAttributeNS(null,"y",0);
+		svg_img.setAttributeNS(null,"width",500);
+		svg_img.setAttributeNS(null,"height",410);
+		svg_img.setAttributeNS(null,"z-index",-100);
+		svgob.appendChild(svg_img);
+		var qw01 =document.getElementsByName("qw01");
+		svgob.onmousemove=function(event){
+			
+			
+			var x=event.offsetX;
+			var y=event.offsetY;
+			// alert(x+"---"+y)
+			if((x>10&&x<135)&&(y>180&&y<225))
+				{
+				this.style.cursor="hand";
+				 // qw02();
+				}
+			
+			//188  308  5 49
+			else if((x>188&&x<308)&&(y>5&&y<49)){
+			   this.style.cursor="hand";
+				//alert("qw01")
+				 //qw1();
+			}
+			else  if((x>360&&x<485)&&(y>180&&y<225))
+			{
+				this.style.cursor="hand";
+			  
+			}
+			else if((x>188&&x<308)&&(y>355&&y<400)){
+				// qw04();
+				this.style.cursor="hand";
+			} else{
+				this.style.cursor="default";
+			}
+		}
+		
+		
+		svgob.onclick=function(event)
+		{
+			//alert(event);
+			var x=event.offsetX;
+			var y=event.offsetY;
+			//alert(x+"-"+y)
+			//y 180 225
+			if((x>10&&x<135)&&(y>180&&y<225))
+				{
+				  qw02();
+				}
+			
+			//188  308  5 49
+			if((x>188&&x<308)&&(y>5&&y<49)){
+				//alert("qw01")
+				 qw1();
+			}
+			if((x>360&&x<485)&&(y>180&&y<225))
+			{
+			  qw03();
+			}
+			if((x>188&&x<308)&&(y>355&&y<400)){
+				 qw04();
+			}
+			//10-135   
+			
+		}
+	}
+</script>
+<script src="assets/js/jquery-1.8.3.js"></script>
+<!--[if lte IE 9]>
+ <script src="assets/js/respond.min.js"></script>
+     <script src="assets/js/html5shiv.min.js"></script>
+<![endif]-->
+    
+        <script src="assets/excanvas.js"></script>
+    <script src="assets/echarts.js"></script>
+     <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/skins.min.js"></script>
+     <script type="text/javascript" src="assets/js/zTree/js/jquery.ztree.core-3.5.js"></script>
+    <script type="text/javascript" src="assets/js/zTree/js/jquery.ztree.excheck-3.5.min.js"></script>
+     
+    <script type="text/javascript" src="assets/js/fwplot/index.js" charset="gbk"></script>
+    <script type="text/javascript" src="assets/js/fwplot/paginationindex.js" charset="gbk"></script> 
+    <script type="text/javascript" src="assets/js/fwplot/newmassge.js" charset="gbk"></script>
+
+</head>
+<!-- /Head -->
+<!-- Body -->
+<body style="font-family:'Microsoft YaHei UI'"   onload="initParam();loaddaohang(1); searchnewmassege();loadSystemSet();loadsvg() ">
+    <!-- Loading Container -->
+    <div class="loading-container">
+        <div class="loading-progress">
+            <div class="rotator">
+                <div class="rotator">
+                    <div class="rotator colored">
+                        <div class="rotator">
+                            <div class="rotator colored">
+                                <div class="rotator colored"></div>
+                                <div class="rotator"></div>
+                            </div>
+                            <div class="rotator colored"></div>
+                        </div>
+                        <div class="rotator"></div>
+                    </div>
+                    <div class="rotator"></div>
+                </div>
+                <div class="rotator"></div>
+            </div>
+            <div class="rotator"></div>
+        </div>
+    </div>
+    <!--  /Loading Container -->
+    <!-- Navbar -->
+    <div class="navbar" style="background: url('image/title_bg_L.png');height: 91px;">
+        <div class="navbar-inner" style="background:none;">
+            <div class="navbar-container">
+                <!-- Navbar Barnd -->
+                <div class="navbar-header pull-left"  style="margin-top: 27px;margin-left: 15px;">
+                     <img src="image/logo.png" alt="" width="490" height="46"/>
+                </div>
+                <!-- /Navbar Barnd -->
+                <!-- Sidebar Collapse -->
+               <!--  <div class="sidebar-collapse" id="sidebar-collapse">
+                    <i class="collapse-icon fa fa-bars"></i>
+                </div> -->
+                <!-- /Sidebar Collapse -->
+                <!-- Account Area and Settings --->
+                <div class="navbar-header pull-right" style="z-index:1000;">
+                    <div class="navbar-account">
+                        <ul class="account-area" style="margin-top: 4px;" >
+                            <li>
+                                <a class="wave in dropdown-toggle" data-toggle="dropdown" title="未读消息" href="#">
+                                    <i class="icon fa fa-envelope"></i>
+                                    <span class="badge" id='newmassegelistcount'></span>
+                                </a>
+                                <!--Messages Dropdown-->
+                                <ul class="pull-right dropdown-menu dropdown-arrow dropdown-messages" id='newmassegelist'>
+                                  
+                                </ul>
+                                <!--/Messages Dropdown-->
+                            </li>
+					    	<!-- /Account Area -->
+                        </ul> 
+                    </div>
+                </div>
+                <!-- /Account Area and Settings -->
+            </div>
+        </div>
+    </div>
+    <!-- /Navbar -->
+    <!-- Main Container -->
+    <div class="main-container container-fluid">
+        <!-- Page Container -->
+        <div class="page-container">
+            
+            <!-- /Page Sidebar -->
+            <!-- Page Content -->
+            <div class="row"   >
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <!-- Page Breadcrumb -->
+               
+                    
+               <nav class="navbar navbar-default  navbar-static-top"
+					role="navigation" style="z-index:3">
+
+
+					<div class="collapse navbar-collapse"
+						style="background-color:#f1f1f1;">
+
+						<form class="navbar-form navbar-right" role="search">
+							<a  class="btn btn-info btn-sm" href="publishservice.html">
+								<i class='glyphicon glyphicon-open'></i>注册服务
+							</a>
+						</form>
+						<ul class="nav navbar-nav navbar-right   " id="daohang">
+							
+						</ul>
+
+					</div>
+
+				</nav>
+                     
+                
+                <!-- /Page Breadcrumb -->
+                <!-- Page Header -->
+                 
+                <!-- /Page Header -->
+                <!-- Page Body -->
+                <div class="page-body" style="background-color: white;">
+					 
+                        
+                 
+                 <div class="row"  >
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							 <div class="widget">
+								<div class="widget-body"  style="display: block; height: auto;min-height:150px;">
+
+										<div class="row">
+											<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5"
+												id="servicelist"  style="border: 1px solid #ccc; height: 565px;" >
+                                             <p STYLE="text-align: left ; color:#000000;font-weight:bold; font-size:17px;margin-top:10px">&nbsp;&nbsp;平台通过服务总线对外发布服务资源300多类，用于访问数据资源目录及元数据信息，查询基础库、关联库的数据资源，通过应用服务接口以及PGIS等第三方厂商接口支撑业务应用开发。
+                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="plotsvg" >
+                                               <!--  <img alt=""   src="ppt.png" height="410" width="500" />   -->
+												<svg id="imgsvg" contentScriptType="text/ecmascript" width="500" height="410"  xmlns:xlink="http://www.w3.org/1999/xlink"  baseProfile="full" zoomAndPan="magnify" contentStyleType="text/css" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" version="1.0">
+												  <rect name="qw01" fill="#C60000" x="187.5" y="10" width="125.0" height="40.0" stroke="#C60000"  />
+												  <rect name="qw02" fill="#C645FF" x="10" y="185" width="125.0" height="40.0" stroke="#C645FF"  />
+												  <rect name="qw03" fill="#00B252" x="365" y="185" width="125.0" height="40.0" stroke="#00B252"  />
+												  <rect name="qw04" fill="#0071C6" x="187.5" y="360" width="125.0" height="40.0" stroke="#0071C6" />
+												 </svg>
+												 </div>
+											</div>
+											  <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+												<div class="  col-lg-12 col-md-12 col-sm-12 col-xs-12">
+													<div id="mainBar6"
+														style="height: 565px; border: 1px solid #ccc; padding: 10px;font-family: '宋体'"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+                                    </div>     
+                        </div> 
+                        </div>
+                   　　                           </div>
+                <!-- /Page Body -->
+            <!-- /Page Content -->
+        </div>
+        </div><!-- jjjj -->
+        <!-- /Page Container -->
+        <!-- Main Container -->
+
+    </div>
+  </div>
+  
+  <div class="modal fade" id="myModal68" tabindex="-1" role="dialog" aria-labelledby="myModalLabel68" style="margin-top:150px;">
+        <div class="modal-dialog"   style="width:60%">
+            <div class="modal-content">
+                <div class="modal-header modelcolor"  style=" background: #3972CE;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                   <h3  id="myModalLabel68" class="modal-title "  style="font-size:20px;color:#F7E5E5;font-weight:bold;">注销用户</h3>
+                </div>
+                <div class="modal-body" style="min-height:100px;">
+                   <div class="  col-lg-10 col-md-10 col-sm-10 col-xs-10"  >
+                     <form class="form-horizontal " style='margin-top:0px;color:#55557A;font-size: 14px;' >
+                        <div class="form-group">
+								<label   class="col-sm-12 control-label" id="replyerror" style="text-align:center;color:red"></label>
+							</div>
+							<div class="form-group">
+							<input id="deleteids" type="hidden" />
+								<label for="appphone" class="col-sm-12 control-label" style="text-align:center;color: #3972CE;font-size: 16px;">是否确定注销用户！</label>
+							</div>
+						</form>
+                     </div>
+                </div>
+                <div class="modal-footer modelcolor"  style=" background: #3972CE;">
+                         <button type="button" class="btn  btn-danger btn-sm"  onclick="lgout()"  data-dismiss="modal" >确定 </button>
+                          <button type="button" class="btn  btn-default btn-sm"   data-dismiss="modal" >关闭 </button>
+                </div>
+        </div>
+    </div>
+    </div>
+  
+  
+    <!--Basic Scripts-->
+    
+   
+    <!--Beyond Scripts-->
+    <script src="assets/js/beyond.min.js"></script>
+       <script src="assets/js/fwplot/chart/plotshowtotal.js"></script>
+       <!--  <script src="assets/js/fwplot/chart/svgplot.js"></script> -->
+    <!--Page Related Scripts-->
+    
+ 
+</body>
+<!--  /Body -->
+</html>

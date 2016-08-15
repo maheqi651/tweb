@@ -1,0 +1,510 @@
+﻿<!DOCTYPE html>
+ 
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+    <meta charset="utf-8" />
+    <title>广州大数据服务资源中心</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+    <!--Basic Styles-->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link id="bootstrap-rtl-link" href="" rel="stylesheet" />
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="assets/css/weather-icons.min.css" rel="stylesheet" />
+    <!--Fonts-->
+     <!--Beyond styles-->
+    <link rel="stylesheet" href="assets/js/zTree/css/zTreeStyle/zTreeStyle.css" />
+    <link id="beyond-link" href="assets/css/beyond.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/css/demo.min.css" rel="stylesheet" />
+    <link href="assets/css/typicons.min.css" rel="stylesheet" />
+    <link href="assets/css/animate.min.css" rel="stylesheet" />
+     <link href="raty/jquery.raty.css" rel="stylesheet" />
+    <link id="skin-link" href="" rel="stylesheet" type="text/css" />
+  
+    <style type="text/css">
+    #jbxx ul{
+   padding-left:0px;
+    height:22px;
+    }
+    #jbxx ul li{
+    width:30%;
+    float:left;
+    list-style:none;
+    text-align:left;
+    
+    
+    }
+    #scorelist ul{
+    padding-left:0px;
+    height:22px;
+    }
+    
+    #scorelist ul li{
+    width:20%;
+    float:left;
+    list-style:none;
+    text-align:left;
+    }
+    </style>
+    <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
+       <script src="assets/js/jquery-2.0.3.min.js"></script>
+<!--[if lte IE 9]>
+ <script src="assets/js/respond.min.js"></script>
+     <script src="assets/js/html5shiv.min.js"></script>
+<![endif]-->
+    <script src="assets/js/skins.min.js"></script>
+    <script type="text/javascript" src="assets/js/zTree/js/jquery.ztree.core-3.5.js"></script>
+    <script type="text/javascript" src="assets/js/zTree/js/jquery.ztree.excheck-3.5.min.js"></script>
+    <script type="text/javascript" src="assets/js/fwplot/menu.js" charset="gbk"></script>
+    <script type="text/javascript" src="assets/js/fwplot/pagination.js" charset="gbk"></script> 
+    <script type="text/javascript" src="assets/js/fwplot/search.js" charset="gbk"></script>
+    <script type="text/javascript" src="assets/js/fwplot/serviceinfo20150811.js" charset="gbk"></script>
+    <script type="text/javascript" src="assets/js/fwplot/ezfunctionapply.js" charset="gbk"></script>
+    <script type="text/javascript" src="raty/jquery.raty.js"  ></script>
+    <script type="text/javascript" src="assets/js/fwplot/newmassge.js" charset="gbk"></script>
+</head>
+<!-- /Head -->
+<!-- Body -->
+<body style="font-family:'Microsoft YaHei UI'" onload="loadmenu(51);loaddaohang(3);searchservice();load();initParam();searchnewmassege();loadSystemSet()">
+   <div class="loading-container">
+        <div class="loading-progress">
+            <div class="rotator">
+                <div class="rotator">
+                    <div class="rotator colored">
+                        <div class="rotator">
+                            <div class="rotator colored">
+                                <div class="rotator colored"></div>
+                                <div class="rotator"></div>
+                            </div>
+                            <div class="rotator colored"></div>
+                        </div>
+                        <div class="rotator"></div>
+                    </div>
+                    <div class="rotator"></div>
+                </div>
+                <div class="rotator"></div>
+            </div>
+            <div class="rotator"></div>
+        </div>
+    </div>
+    <!--  /Loading Container -->
+    <!-- Navbar -->
+    <div class="navbar" style="background: url('image/title_bg_L.png');height: 91px;">
+        <div class="navbar-inner" style="background:none;">
+            <div class="navbar-container">
+                <!-- Navbar Barnd -->
+                <div class="navbar-header pull-left"  style="margin-top: 27px;margin-left: 15px;">
+                      <img src="image/logo.png" alt="" width="490" height="46"/>
+                         
+                    
+                </div>
+                <!-- /Navbar Barnd -->
+
+                <!-- Sidebar Collapse -->
+               <!--  <div class="sidebar-collapse" id="sidebar-collapse">
+                    <i class="collapse-icon fa fa-bars"></i>
+                </div> -->
+                <!-- /Sidebar Collapse -->
+                <!-- Account Area and Settings --->
+                <div class="navbar-header pull-right" style="z-index:1000;">
+                    <div class="navbar-account">
+                        <ul class="account-area" style="margin-top: 4px;" >
+                            <li>
+                                <a class="wave in dropdown-toggle" data-toggle="dropdown" title="未读消息" href="#">
+                                    <i class="icon fa fa-envelope"></i>
+                                    <span class="badge" id='newmassegelistcount'></span>
+                                </a>
+                                <!--Messages Dropdown-->
+                                <ul class="pull-right dropdown-menu dropdown-arrow dropdown-messages" id='newmassegelist'>
+                                  
+                                </ul>
+                                <!--/Messages Dropdown-->
+                            </li>
+							<!-- /Account Area -->
+                        </ul> 
+                    </div>
+                </div>
+                <!-- /Account Area and Settings -->
+                <!-- /Account Area and Settings -->
+            </div>
+        </div>
+    </div>
+   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
+				<!-- Page Breadcrumb -->
+
+
+				<nav class="navbar navbar-default  navbar-static-top"
+					role="navigation"  style="z-index:3">
+
+
+					<div class="collapse navbar-collapse"
+						style="background-color:#f1f1f1;">
+
+						<form class="navbar-form navbar-right" role="search">
+							<a  class="btn btn-info btn-sm" href="publishservice.html">
+								<i class='glyphicon glyphicon-open'></i>注册服务
+							</a>
+						</form>
+					 <ul class="nav navbar-nav navbar-right   " id="daohang">
+							
+						</ul>
+
+					</div>
+
+				</nav>
+			</div>
+    <!-- /Navbar -->
+    <!-- Main Container -->
+    <div class="main-container container-fluid" style ="margin-top:50px;">
+        <!-- Page Container -->
+        <div class="page-container">
+            <!-- Page Sidebar -->
+            <div class="page-sidebar" id="sidebar">
+                <!-- Page Sidebar Header-->
+                <div class="sidebar-header-wrapper">
+                    <input type="text" class="searchinput" placeholder="搜索服务"  style="font-size:14px;font-family: '微软雅黑'"  id='searchinput'/>
+                    <i class="searchicon fa fa-search"></i>
+                    <div class="searchhelper"> 搜索服务资源</div>
+                </div>
+                <!-- /Page Sidebar Header -->
+                <!-- Sidebar Menu -->
+                <ul class="nav sidebar-menu" id="leftmenuid">
+                    <!--Dashboard-->
+                   
+                </ul>
+                <!-- /Sidebar Menu -->
+            </div>
+            <!-- /Page Sidebar -->
+            <!-- Page Content -->
+            <div class="page-content">
+                <!-- Page Breadcrumb -->
+               <!--  <div class="page-breadcrumbs">
+                    <ul class="breadcrumb">
+                        <li>
+                            <i class="fa fa-home"></i>
+                            <a href="#">Home</a>
+                        </li>
+                        <li class="active">Dashboard</li>
+                    </ul>
+                </div> -->
+                <!-- /Page Breadcrumb -->
+                <!-- Page Header -->
+                <div class="page-header position-relative">
+                    <div class="header-title">
+                        <ul class="breadcrumb" style="margin-top:6px;">
+                        <li>
+                            <i class="fa fa-home"></i>
+                            <a  href="index.html">服务资源</a>
+                        </li>
+                        <li class="active">服务详情</li>
+                       </ul>
+                    </div>
+                    <!--Header Buttons-->
+                    <div class="header-buttons">
+                        <a class="sidebar-toggler" href="#">
+                            <i class="fa fa-arrows-h"></i>
+                        </a>
+                        <a class="refresh" id="refresh-toggler" href="">
+                            <i class="glyphicon glyphicon-refresh"></i>
+                        </a>
+                        <a class="fullscreen" id="fullscreen-toggler" href="#">
+                            <i class="glyphicon glyphicon-fullscreen"></i>
+                        </a>
+                    </div>
+                    <!--Header Buttons End-->
+                </div>
+                <!-- /Page Header -->
+                <!-- Page Body -->
+                <div class="page-body">
+                    
+                    <div class="row">
+                    	
+                    	
+                    	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="widget flat">
+                                        <div class="widget-header bordered-bottom bordered-platinum">
+                                            <span class="widget-caption">服务详情信息</span>
+                                            <div class="widget-buttons">
+                                                <a href="#" data-toggle="maximize">
+                                                    <i class="fa sky fa-expand"></i>
+                                                </a>
+                                                <a href="#" data-toggle="collapse">
+                                                    <i class="fa red fa-minus"></i>
+                                                </a>
+                                            </div><!--Widget Buttons-->
+                                        </div><!--Widget Header-->
+                                        <div class="widget-body" style="display: block;  height:1000px;">
+                                         
+                                            	<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="display: block;  min-height:300px;">
+                                            			
+                                            			<div class="user-thumb" style="width:160px; height:120px;"> 
+                                            			   <img  id='serviceimage' style="  width:160px; height:110px;" src="assets/img/ditu.png"  class="img-thumbnail">
+                                            		     </div>
+															<div style="text-align:center" id='hqmy'>
+																
+															</div>
+															
+															
+															
+																
+                                                </div>
+									<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+										<div class="article-post" id="jbxx">
+											<span class="user-info"><p style='font-size:18px;font-weight: bold' id='fwname'>&nbsp;</p></span> 
+												<hr style='margin-top:1px;margin-bottom: 8px;'>
+           												<p>服务说明：<font color='blue' id='fwsm'>&nbsp;</font></p>
+											    <ul>
+												<li>
+													<p>
+														 服务提供：<font color='blue' id='fwregion'>&nbsp;</font>
+													</p>
+												</li>
+												<li>
+													<p>
+														注册时间：<font color='blue' id='fwaddtime'>&nbsp;</font>
+													</p>
+												</li>
+											</ul>
+												<ul>
+												<li>
+													<p>
+														服务类型：<font color='blue' id='fwtype'>&nbsp;</font>
+													</p>
+												</li>
+												<li>
+													<p>
+														访问次数：<font color='blue' id='fwaccess'>&nbsp;</font>
+													</p>
+												</li>
+											</ul>
+											<ul>
+												<li>
+													<p>
+														评分： <span id="star1"  ></span>(已有<font color='blue' id='pfrs'>&nbsp;</font>人评价)
+													</p>
+												</li>
+												 
+											 
+											</ul>
+											
+
+										 <div></div>
+										</div>
+										<br/>
+									</div>
+									
+                           <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10" >
+
+								<!-- Nav tabs -->
+								<ul class="nav nav-tabs nav-pills" role="tablist"   style='background-color:#ffffff;'>
+									<li role="presentation" class="active"><a href="#home"
+										aria-controls="home" role="tab" data-toggle="tab" >简介</a></li>
+									<li role="presentation"><a href="#profile"
+										aria-controls="profile" role="tab" data-toggle="tab">使用说明</a></li>
+									<li role="presentation"><a href="#messages"
+										aria-controls="messages" role="tab" data-toggle="tab">评分</a></li>
+									 
+								</ul>
+
+								<!-- Tab panes -->
+								<div class="tab-content">
+									<div role="tabpanel" class="tab-pane active" id="home" style='min-height:200px;'>
+                                        <p style='font-weight: bold'><i class='glyphicon glyphicon-play'></i>功能说明  </p>
+                                        <p id="fwinfo"> </p>
+                                     </div>
+									<div role="tabpanel" class="tab-pane" id="profile"  style='min-height:200px;'>
+                                         <p style='font-weight: bold'><i class='glyphicon glyphicon-play'></i>服务 地址</p>
+                                         <p id='fwdz'>服务地址：<a href='http://localhost:8088/EzAPFWPlot/serviceinfotest.html' target="blank">http://localhost:8088/EzAPFWPlot/serviceinfotest.html</a></p>
+										 <p id='sldz'>示例地址：<a href='http://localhost:8088/EzAPFWPlot/serviceinfotest.html' target="blank">http://localhost:8088/EzAPFWPlot/serviceinfotest.html</a></p>
+										 <p id='demodz'>帮助地址：<a href='http://localhost:8088/EzAPFWPlot/serviceinfotest.html' target="blank">http://localhost:8088/EzAPFWPlot/serviceinfotest.html</a></p>
+                                   </div>
+                                   
+									<div role="tabpanel" class="tab-pane" id="messages"  style='min-height:200px;'>
+									<div class='row'>
+												<div class="col-lg-12 col-md-11 col-sm-12 col-xs-12"
+														style='  padding-bottom: 5px; padding-top: 20px;'>
+                                                    <p>用户： <input  id='adduser' type="text" readonly="readonly"   style='border: 0px;color:blue'/> </p>
+                                                    <p>评分： <span id="star"  ></span> &nbsp;&nbsp;&nbsp;<input  id='scoreselect' type="text" readonly="readonly" value='0' style='border: 0px;color:blue;width:10px;'/>分</p>
+                                                     <span style='line-height: 20px;'><p style='float:left'>评论：</p>
+                                                     <p style='float:left;width:95%'><textarea style='width:99%;height:100px;border: 1px #3972CE solid' id='pfcontent'></textarea></p> 
+                                                      
+                                                    </span>  
+                                                    <input type="hidden" id="serviceid">
+                                                    
+                                                     <p style='float:left;width:100%; line-height: 30px; margin-left:40px; '> <a class="btn btn-primary btn-sm" onclick='fbpf()'>发表评论</a>&nbsp;&nbsp;&nbsp;&nbsp;(最多150字)</textarea></p> 
+												</div>
+											   
+												<div class='    col-lg-1  '  style="width:6%"  >&nbsp;
+									            </div>
+												<div class='    col-lg-11 col-md-11 col-sm-11 col-xs-11'  id='scorelist' style="width:91%; margin-top:30px;border: #3972CE 1px solid;">
+									            </div>
+												  <div class=' 12 col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+														<div class="row" align="center" id="pager"
+															style="margin-top: 20px;">
+															<ul class="pagination pagination-sm" id="pagerculom">
+															</ul>
+														</div>
+												</div>	
+										</div>
+											
+											
+									
+									
+									</div>
+								</div>
+						</div>
+
+
+
+								</div><!--Widget Body-->
+                                    </div><!--Widget-->
+                                </div>
+                                
+                                
+                                
+                                   
+                        
+                   </div>
+                <!-- /Page Body -->
+            </div>
+            <!-- /Page Content -->
+        </div>
+        <!-- /Page Container -->
+        <!-- Main Container -->
+
+    </div>
+    
+    <div class="modal fade" id="myModal68" tabindex="-1" role="dialog" aria-labelledby="myModalLabel68" style="margin-top:150px;">
+        <div class="modal-dialog"   style="width:50%">
+            <div class="modal-content">
+                <div class="modal-header modelcolor"  style=" background: #3972CE;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                   <h3  id="myModalLabel68" class="modal-title "  style="font-size:20px;color:#F7E5E5;font-weight:bold;">注销用户</h3>
+                </div>
+                <div class="modal-body" style="min-height:100px;">
+                   <div class="  col-lg-10 col-md-10 col-sm-10 col-xs-10"  >
+                     <form class="form-horizontal " style='margin-top:0px;color:#55557A;font-size: 14px;' >
+                        <div class="form-group">
+								<label   class="col-sm-12 control-label" id="replyerror" style="text-align:center;color:red"></label>
+							</div>
+							<div class="form-group">
+							<input id="deleteids" type="hidden" />
+								<label for="appphone" class="col-sm-12 control-label" style="text-align:center;color: #3972CE;font-size: 16px;">是否确定注销用户！</label>
+							</div>
+						</form>
+                     </div>
+                </div>
+                <div class="modal-footer modelcolor"  style=" background: #3972CE;">
+                         <button type="button" class="btn  btn-danger btn-sm"  onclick="lgout()"  data-dismiss="modal" >确定 </button>
+                          <button type="button" class="btn  btn-default btn-sm"   data-dismiss="modal" >关闭 </button>
+                </div>
+        </div>
+    </div>
+    </div>
+    
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" >
+        <div class="modal-dialog"  style='width:50%' id="modal2div">
+            <div class="modal-content">
+                <div class="modal-header" style="background: #3972CE">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                   <h3 class="modal-title" id="myModalLabel2"  style="font-size:20px;color:#F7E5E5;font-weight:bold;">服务申请</h3>
+                </div>
+                <div class="modal-body" style='min-height:450px;'>
+                   <div class="  col-lg-10 col-md-8 col-sm-8 col-xs-8" style='height:450px;overflow: auto' id="modalbodyid">
+                     <form class="form-horizontal " style='margin-top:0px;color:#55557A;font-size: 12px;' >
+						   <div class="form-group" >
+								 <label for="serviceName" class="col-sm-4 control-label"></label>
+								<div class="col-sm-8">
+									 <span id="error1" style='color:red;font-size: 14px;'></span>
+									 <input type="hidden" id="serviceids">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="serviceName" class="col-sm-4 control-label">申请历史</label>
+								<div class="col-sm-8">
+										<select class="form-control"  id="sqls" onchange="selectFunction()" style='height:28px;line-height:28px;padding-top:4px; border-color:#B3CBE4'>
+											<option value="no"></option>
+										</select>
+									</div>
+							</div>
+							<div class="form-group">
+								<label for="servicename" class="col-sm-4 control-label">申请服务</label>
+								<div class="col-sm-8">
+									<input type="text" class="form-control  " id="servicename" style='height:28px; border-color:#B3CBE4' disabled>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="servicedesp" class="col-sm-4 control-label">服务描述</label>
+								<div class="col-sm-8">
+									<input type="text"  class="form-control" id="servicedesp" style='height:28px; border-color:#B3CBE4' disabled>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="appname" class="col-sm-4 control-label">应用名称</label>
+								<div class="col-sm-8">
+									<input type="text"  class="form-control" id="appname" style='height:28px; border-color:#B3CBE4' >
+								    <input type="hidden" id="appcode">
+								</div>
+							</div>
+							 
+							 <div class="form-group">
+								<label for="appinfo" class="col-sm-4 control-label">应用描述</label>
+								<div class="col-sm-8">
+								<input type="text"  class="form-control" id="appinfo" style='height:28px; border-color:#B3CBE4' >
+									
+								</div>
+							</div>
+							 
+							 <div class="form-group">
+								<label for="appaddress" class="col-sm-4 control-label">应用地址</label>
+								<div class="col-sm-8">
+									<input type="text"  class="form-control" id="appaddress"   style='height:28px; border-color:#B3CBE4' >
+								</div>
+							 </div>
+							 
+							<div class="form-group">
+								<label for="appphone" class="col-sm-4 control-label">联系电话</label>
+								<div class="col-sm-8">
+									<input type="text"  class="form-control" id="appphone"  style='height:28px; border-color:#B3CBE4' >
+								</div>
+							</div>
+							 
+						</form>
+                     </div>
+                 
+						<div class="  col-lg-4 col-md-4 col-sm-4 col-xs-4"   id="treedivid" style='height:450px;overflow: auto;display: none;'>
+                                       <div class="zTreeDemoBackground left">
+                                            <ul id="treeDemo1" class="ztree"> 
+                                            </ul>
+                                        </div>
+                </div>
+                </div>
+                <div class="modal-footer" style='margin-top:25px;background: #3972CE'  >
+                   <button type="button" class="btn btn-success btn-sm"    onclick='applyService()' id="queren">
+                                                                          申请</button>
+                         <button type="button" class="btn btn-sm" data-dismiss="modal" id="quxiao">取消</button>
+                </div>
+            
+        </div>
+    </div>
+    </div>
+    <!--Basic Scripts-->
+   
+    <script src="assets/js/bootstrap.min.js"></script>
+    <!--Beyond Scripts-->
+    <script src="assets/js/beyond.min.js"></script>
+    <!--Page Related Scripts-->
+    
+ 
+</body>
+<!--  /Body -->
+</html>

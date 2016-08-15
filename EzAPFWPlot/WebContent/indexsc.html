@@ -1,0 +1,419 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+    <meta charset="utf-8" />
+    <title>应用服务平台</title>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+    <!--Basic Styles-->
+  
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" media="screen" />
+    <link id="bootstrap-rtl-link" href="" rel="stylesheet" />
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="assets/css/weather-icons.min.css" rel="stylesheet" />
+    <!--Fonts-->
+     <!--Beyond styles-->
+
+    <link id="beyond-link" href="assets/css/beyond.min.css" rel="stylesheet" type="text/css" />
+     <link rel="stylesheet" href="assets/js/zTree/css/zTreeStyle/zTreeStyle.css" />
+    <link href="assets/css/demo.min.css" rel="stylesheet" />
+    <link href="assets/css/typicons.min.css" rel="stylesheet" />
+    <link href="assets/css/animate.min.css" rel="stylesheet" />
+    <link id="skin-link" href="" rel="stylesheet" type="text/css" />
+
+    <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
+    
+   
+    <script src="assets/js/jquery-1.8.3.js"></script>
+<!--[if lte IE 9]>
+ <script src="assets/js/respond.min.js"></script>
+     <script src="assets/js/html5shiv.min.js"></script>
+<![endif]-->
+     <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/skins.min.js"></script>
+     <script type="text/javascript" src="assets/js/zTree/js/jquery.ztree.core-3.5.js"></script>
+    <script type="text/javascript" src="assets/js/zTree/js/jquery.ztree.excheck-3.5.min.js"></script>
+     
+    <script type="text/javascript" src="assets/js/fwplot/index.js" charset="gbk"></script>
+    <script type="text/javascript" src="assets/js/fwplot/pagination.js" charset="gbk"></script> 
+     <script type="text/javascript" src="assets/js/fwplot/newmassge.js" charset="gbk"></script>
+
+</head>
+<!-- /Head -->
+<!-- Body -->
+<body style="font-family:'Microsoft YaHei UI'" onload="initParam();loaddaohang(3);findServiceall();searchnewmassege();loadSystemSet()  ">
+    <!-- Loading Container -->
+    <div class="loading-container">
+        <div class="loading-progress">
+            <div class="rotator">
+                <div class="rotator">
+                    <div class="rotator colored">
+                        <div class="rotator">
+                            <div class="rotator colored">
+                                <div class="rotator colored"></div>
+                                <div class="rotator"></div>
+                            </div>
+                            <div class="rotator colored"></div>
+                        </div>
+                        <div class="rotator"></div>
+                    </div>
+                    <div class="rotator"></div>
+                </div>
+                <div class="rotator"></div>
+            </div>
+            <div class="rotator"></div>
+        </div>
+    </div>
+    <!--  /Loading Container -->
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="navbar-container">
+                <!-- Navbar Barnd -->
+                <div class="navbar-header pull-left">
+                    <a href="#" class="navbar-brand">
+                        <small>
+                            <img src="assets/img/logo.png" alt="" />
+                        </small>
+                    </a>
+                </div>
+                <!-- /Navbar Barnd -->
+
+                <!-- Sidebar Collapse -->
+                <div class="sidebar-collapse" id="sidebar-collapse">
+                    <i class="collapse-icon fa fa-bars"></i>
+                </div>
+                <!-- /Sidebar Collapse -->
+                <!-- Account Area and Settings --->
+                <div class="navbar-header pull-right" style="z-index:100">
+                    <div class="navbar-account">
+                        <ul class="account-area"  >
+                            <li>
+                                <a class="wave in dropdown-toggle" data-toggle="dropdown" title="未读消息" href="#">
+                                    <i class="icon fa fa-envelope"></i>
+                                    <span class="badge" id='newmassegelistcount'></span>
+                                </a>
+                                <!--Messages Dropdown-->
+                                <ul class="pull-right dropdown-menu dropdown-arrow dropdown-messages" id='newmassegelist'>
+                                  
+                                </ul>
+                                <!--/Messages Dropdown-->
+                            </li>
+
+                          
+                            <li id='systemsetid'><a class="login-area dropdown-toggle"
+								data-toggle="dropdown" style="color: white; margin-top: 5px;"><i
+									class="glyphicon glyphicon-cog">系统设置</i></a>
+							<ul
+									class="pull-right dropdown-menu dropdown-arrow dropdown-login-area">
+									<li class="theme-area">
+										<ul class="colorpicker" id="skin-changer">
+											<li><a class="colorpick-btn" href="#"
+												style="background-color: #5DB2FF;"
+												rel="assets/css/skins/blue.min.css"></a></li>
+											<li><a class="colorpick-btn" href="#"
+												style="background-color: #2dc3e8;"
+												rel="assets/css/skins/azure.min.css"></a></li>
+											<li><a class="colorpick-btn" href="#"
+												style="background-color: #03B3B2;"
+												rel="assets/css/skins/teal.min.css"></a></li>
+											<li><a class="colorpick-btn" href="#"
+												style="background-color: #53a93f;"
+												rel="assets/css/skins/green.min.css"></a></li>
+											<li><a class="colorpick-btn" href="#"
+												style="background-color: #FF8F32;"
+												rel="assets/css/skins/orange.min.css"></a></li>
+											<li><a class="colorpick-btn" href="#"
+												style="background-color: #cc324b;"
+												rel="assets/css/skins/pink.min.css"></a></li>
+											<li><a class="colorpick-btn" href="#"
+												style="background-color: #AC193D;"
+												rel="assets/css/skins/darkred.min.css"></a></li>
+											<li><a class="colorpick-btn" href="#"
+												style="background-color: #8C0095;"
+												rel="assets/css/skins/purple.min.css"></a></li>
+											<li><a class="colorpick-btn" href="#"
+												style="background-color: #0072C6;"
+												rel="assets/css/skins/darkblue.min.css"></a></li>
+											<li><a class="colorpick-btn" href="#"
+												style="background-color: #585858;"
+												rel="assets/css/skins/gray.min.css"></a></li>
+											<li><a class="colorpick-btn" href="#"
+												style="background-color: #474544;"
+												rel="assets/css/skins/black.min.css"></a></li>
+											<li><a class="colorpick-btn" href="#"
+												style="background-color: #001940;"
+												rel="assets/css/skins/deepblue.min.css"></a></li>
+										</ul>
+									</li>
+									<li class="dropdown-footer"> </li>
+								</ul></li>
+                            
+                            <!-- /Account Area -->
+                        </ul> 
+                    </div>
+                </div>
+                <!-- /Account Area and Settings -->
+            </div>
+        </div>
+    </div>
+    <!-- /Navbar -->
+    <!-- Main Container -->
+    <div class="main-container container-fluid">
+        <!-- Page Container -->
+        <div class="page-container">
+            <!-- Page Sidebar -->
+         <!--    <div class="page-sidebar" id="sidebar">
+                Page Sidebar Header
+                <div class="sidebar-header-wrapper">
+                    <input type="text" id="searchinput"  class="searchinput" />
+                    <i class="searchicon fa fa-search"></i>
+                   
+                </div>
+                /Page Sidebar Header
+                Sidebar Menu
+                <ul class="nav sidebar-menu" id="leftmenuid">
+                    Dashboard
+                   
+                </ul>
+                /Sidebar Menu
+            </div> -->
+            <!-- /Page Sidebar -->
+            <!-- Page Content -->
+            <div class="row"   >
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <!-- Page Breadcrumb -->
+               
+                    
+               <nav class="navbar navbar-default  navbar-static-top"
+					role="navigation" style="z-index:3">
+
+
+					<div class="collapse navbar-collapse"
+						style="background-color:#f1f1f1;">
+
+						<form class="navbar-form navbar-right" role="search">
+							<a  class="btn btn-info btn-sm" href="publishservice.html">
+								<i class='glyphicon glyphicon-open'></i>注册服务
+							</a>
+						</form>
+					 <ul class="nav navbar-nav navbar-right   " id="daohang">
+							
+						</ul>
+
+					</div>
+
+				</nav>
+                     
+                
+                <!-- /Page Breadcrumb -->
+                <!-- Page Header -->
+                 
+                <!-- /Page Header -->
+                <!-- Page Body -->
+                <div class="page-body" style="background-color: white;">
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="widget">
+								<label style="font-weight: bold">接口类型:</label>
+								<div class="btn-group btn-group-xs" role="group">
+
+                                     <input type="hidden" id="interfacetype">
+									<button type="button" class="btn  btn-primary"
+										id="interfacebuton" onclick='changeinterfacetype("all",this)'>全部类型</button>
+									<button type="button" class="btn btn-default"
+										id="interfacebuton" onclick='changeinterfacetype("JavaScript",this)'>JavaScript</button>
+									<button type="button" class="btn  btn-default"
+										id="interfacebuton" onclick='changeinterfacetype("Flex",this)'>Flex</button>
+										<button type="button" class="btn btn-default "
+										id="interfacebuton" onclick='changeinterfacetype("Http",this)'>Http</button>
+									<button type="button" class="btn btn-default "
+										id="interfacebuton" onclick='changeinterfacetype("WebService",this)'>WebService</button>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="widget">
+								<label style="font-weight: bold">服务类型:</label>
+								<div class="btn-group btn-group-xs" role="group">
+                                   <input type="hidden" id="servicetype">
+									<button id="servicetypebuton" type="button" class="btn btn-primary "
+										 onclick='changetype("all",this)'>全部分类</button>
+									<button type="button" class="btn  btn-default"
+										id="servicetypebuton" onclick='changetype("Res",this)'>资源目录服务</button>
+									<button type="button" class="btn  btn-default"
+										id="servicetypebuton" onclick='changetype("RBSP",this)'>数据访问服务</button>
+									<button type="button" class="btn btn-default"
+										id="servicetypebuton" onclick='changetype("NoSQL",this)'>非结构化服务</button>
+									<button type="button" class="btn  btn-default"
+										id="servicetypebuton" onclick='changetype("Analyse",this)'>分析类服务</button>
+									<button type="button" class="btn btn-default "
+										id="servicetypebuton" onclick='changetype("Monitor",this)'>服务监控接口</button>
+								</div>
+							</div>
+						</div>
+
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="widget">
+								<label style="font-weight: bold">区域类型:</label>
+								<div class="btn-group btn-group-xs" role="group">
+                              <input type="hidden" id="regiontype">
+									 <button type="button" id="regionbuton" class="btn btn-primary "
+										onclick='changeregiontype("全省",this)'>全省</button>
+									<button  type="button" id="regionbuton"  class="btn  btn-default"
+										onclick='changeregiontype("省厅",this)'>省厅</button>
+									<button type="button" id="regionbuton" class="btn  btn-default"
+										onclick='changeregiontype("成都",this)'>成都</button>
+									<button type="button"  id="regionbuton" class="btn btn-default"
+										onclick='changeregiontype("阿贝州",this)'>阿贝州</button>
+									<button type="button" id="regionbuton" class="btn  btn-default"
+										onclick='changeregiontype("巴中",this)'>巴中</button>
+									<button type="button" id="regionbuton" class="btn btn-default "
+										onclick='changeregiontype("德阳",this)'>德阳</button>
+										<button type="button" id="regionbuton" class="btn btn-default "
+										onclick='changeregiontype("甘孜州",this)'>甘孜州</button>
+										<button type="button" id="regionbuton" class="btn btn-default "
+										onclick='changeregiontype("广安",this)'>广安</button>
+										<button type="button" id="regionbuton" class="btn btn-default "
+										onclick='changeregiontype("广元",this)'>广元</button>
+										<button type="button" id="regionbuton" class="btn btn-default "
+										onclick='changeregiontype("乐山",this)'>乐山</button>
+										<button type="button" id="regionbuton" class="btn btn-default "
+										onclick='changeregiontype("凉山州",this)'>凉山州</button>
+										<button type="button" id="regionbuton" class="btn btn-default "
+										onclick='changeregiontype("泸州",this)'>泸州</button>
+								</div>
+							</div>
+						</div>
+
+
+					</div>
+                        
+                 
+                 <div class="row"   >
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							 <div class="widget">
+								<div class="widget-header">
+									<div class="widget-caption col-lg-9 col-md-9 col-sm-9 col-xs-9"  >
+									 <span class='glyphicon glyphicon-th'  ></span>排序:&nbsp;
+									 <div class="btn-group btn-group-xs" role="group">
+									<button type="button" class="btn btn-success btn-xs" id="sortbuton" onclick='dosort(5,this)'  aria-label="Left Align">
+                                       <span class="glyphicon glyphicon-list" aria-hidden="true"></span>无序
+                                     </button>
+                                     <button type="button" class="btn btn-default btn-xs" id="sortbuton" onclick='dosort(1,this)'  aria-label="Left Align">
+                                       <span class="glyphicon glyphicon-sort" aria-hidden="true"></span>名称
+                                     </button>
+                                    <input type="hidden" id="namesort" value="-1">
+									<button type="button" class="btn btn-default btn-xs" id="sortbuton" onclick='dosort(2,this)'   aria-label="Left Align">
+                                       <span class=" glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>人气
+                                     </button>
+                                      <input type="hidden" id="accessort" value="-1">
+                                     <button type="button" class="btn btn-default btn-xs"  id="sortbuton" onclick='dosort(3,this)'  aria-label="Left Align">
+                                       <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>最新
+                                     </button>
+                                      <input type="hidden" id="newsort" value="-1">
+                                     <button type="button" class="btn btn-default btn-xs" id="sortbuton" onclick='dosort(4,this)'  aria-label="Left Align">
+                                       <span class="glyphicon glyphicon-star" aria-hidden="true"></span>评分
+                                     </button>
+                                      <input type="hidden" id="scoresort" value="-1">
+                   
+									 </div>
+                             </div>
+
+										<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+											<div class="input-group input-group-xs" style="margin-top: 5px;">
+
+												<input type="text" class="form-control" id="searchinput"
+													placeholder="查询内容" aria-describedby="sizing-addon3" >
+												<span class=" input-group-addon" id="sizing-addon3"><i class='glyphicon glyphicon-search' onclick="findServiceallbyType()"></i></span>
+											</div>
+										</div>
+									</div>
+                                
+								<div class="widget-body"  style="display: block; height: auto;min-height:150px;">
+
+										<div class="row">
+											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+												id="servicelist">
+
+
+												<!-- <div class="col-md-3">
+													<div class="thumbnail">
+														<img alt="300x200" src="image/Tulips.jpg"
+															class="img-thumbnail" />
+
+														<div class="caption">
+
+															<p
+																style="text-align: left; font-weight: bold; font-size: 15px;">服务资源查询</p>
+
+
+															</p>
+															<span class="btn-group btn-group-xs" role="group"
+																style="float: left"> <a class="btn   "
+																style="border: 0px;"><span
+																	class="glyphicon glyphicon-star" style='color: #F9B111'></span>
+															</a> <a class="btn   " style="border: 0px;"><span
+																	class="glyphicon glyphicon-star" style='color: #F9B111'></span>
+															</a> <a class="btn   " style="border: 0px;"> <span
+																	class="glyphicon glyphicon-star" style='color: #F9B111'></span>
+															</a> <a class="btn   " style="border: 0px;"><span
+																	class="glyphicon glyphicon-star" style='color: #F9B111'></span>
+															</a> <a class="btn    " style="border: 0px;"><span
+																	class="glyphicon glyphicon-star-empty"
+																	style='color: #F9B111'></span> </a>
+
+															</span> <span style="text-align: right;"> <a
+																class="btn btn-blue  btn-xs "
+																onclick="loadservicedetail('SR001')"> <span
+																	class='glyphicon glyphicon-globe'></span>详情
+															</a>
+															</span>
+														</div>
+													</div>
+												</div> -->
+
+
+
+											</div>
+											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+												id="pager1" align="center">
+												　<ul class="pagination pagination-sm" id="pagerculom">
+												　</ul>
+											</div>
+										</div>
+									</div>
+                                    </div>     
+											                               
+                        </div>
+                        </div>
+                   　　                           </div>
+                <!-- /Page Body -->
+            <!-- /Page Content -->
+        </div>
+        </div><!-- jjjj -->
+        <!-- /Page Container -->
+        <!-- Main Container -->
+
+    </div>
+  </div>
+  
+  
+  
+  
+    <!--Basic Scripts-->
+    
+   
+    <!--Beyond Scripts-->
+    <script src="assets/js/beyond.min.js"></script>
+    <!--Page Related Scripts-->
+    
+ 
+</body>
+<!--  /Body -->
+</html>
