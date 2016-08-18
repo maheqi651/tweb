@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>火车票查询</title>
+    <link href="css/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style type="text/css">
+    	.topm{margin-top: 0px!important}
+    	.btm{margin-bottom:10px}
+    	.bs-docs-footer{margin-top: 100px;border-top:1px solid #e5e5e5;text-align:center;color: #777;padding-top: 40px}
+    	.pin{
+    		box-shadow:0 1px 3px rgba(0,0,0,0.3);
+    		-moz-box-shadow:0 1px 3px rgba(0,0,0,.3);
+    		-webkit-box-shadow:0 1px 3px rgba(0,0,0,.3);
+    	}
+    	.middle{margin: 0 auto;text-align: center;}
+    	.loading{text-align:center;border:double rgba(34,25,25,0.14);border-width:3px 0 0 0; }
+    	.unitcontent{border: 1px solid #e7e7e7;margin: 10px auto;cursor: pointer;font-size: 13px}
+    	.unitcontent h4,.unitcontent dl{margin: 0;padding: 0;font-size: 13px}
+    	.tabcpx{border-bottom:1px solid #e7e7e7;border-left: 1px solid #e7e7e7;border-right: 1px solid #e7e7e7; height: 850px}
+    	.total-page span,input,button{position: relative;float: left;padding: 5px 0px;display: inline-block;}
+    	.pagination{font-size: 12px}
+    	.fl{float: left;}
+    	.jianju{padding-top: 5px;padding-right: 10px}
+    </style>
+    <script src="js/jquery-1.8.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/pagination.js"></script>
+    <script type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script> 
+    <script type="text/javascript" src="js/search.js" charset="gbk"></script> 
+    <!-- <script type="text/javascript" src="http://172.25.16.81:7001/EzServerClient/js/EzMapAPI.js" charset="gbk"></script> 
+    -->
+    <script type="text/javascript" src="http://172.25.16.81:7001/EzServerClient3/js/EzMapAPI.js" charset="gbk"></script> 
+     
+    <script type="text/javascript"><!--
+		var baseurl,_MapApp;
+	    (function() {
+			var strFullPath = window.document.location.href;
+			var strPath = window.document.location.pathname;
+			var pos = strFullPath.indexOf(strPath);
+			var prePath = strFullPath.substring(0, pos);
+			var postPath = strPath.substring(0, strPath.substr(1).indexOf('/')+ 1);
+			baseurl = prePath + postPath;
+		})();
+
+	    $(document).ready(function(){
+		    initMap();
+		});
+
+	    function initInfoContent(){
+			$("div.row div.unitcontent").mouseenter(function() {
+			    $( this ).addClass("bg-info");
+			  }).mouseleave(function() {
+			    $( this ).removeClass("bg-info");
+			}).click(function(){
+				$("#pinfo div").removeClass("bg-success");
+				$( this ).addClass("bg-success");
+				_MapApp.clearOverlays();
+				
+				var qitext = $(this).find("dl:last dd.qi").text();
+				var zhtext = $(this).find("dl:last dd.zh").text();
+
+				var icon_start = new Icon();// 构造一个图标类
+				icon_start.image="images/qd.png";
+				icon_start.height=24;
+				icon_start.width=24;
+
+				var icon_end = new Icon();// 构造一个图标类
+				icon_end.image="images/zd.png";
+				icon_end.height=24;
+				icon_end.width=24;
+
+				var qi = getWord(qitext);
+				var zh = getWord(zhtext);
+				var point1 = $.EzSearch.getCityPoint(qi);
+				var point2 = $.EzSearch.getCityPoint(zh);
+				var marker1 = new Marker(new Point(point1[0],point1[1]),icon_start);
+				var marker2 = new Marker(new Point(point2[0],point2[1]),icon_end);
+				_MapApp.addOverlay(marker1);
+				_MapApp.addOverlay(marker2);
+				_MapApp.centerAndZoom(new Point((point1[0]+point2[0])/2,(point1[1]+point2[1])/2), 7);
+			});
+	    }
+
+	    function initMap(){
+	    	//1） ********构造地图控件对象，用于装载地图
+	    	_MapApp = new EzMap(document.getElementById("map"));
+	     
+	    	//2）********初始化地图，并显示地图
+	    	//_MapApp.initialize();
+	     
+	    	//3）********以下为其它一些附属功能
+	    	// 显示左侧导航工具条
+	    	_MapApp.showMapControl();
+	     
+	    	// 构造鹰眼对象
+	    	var ov = new OverView();
+	    	// 设置鹰眼的宽度，单位为像素px
+	    	ov.width = 200;
+	    	// 设置鹰眼的高度
+	    	ov.height = 200;
+	    	// 添加鹰眼对象到地图对象中
+	    	_MapApp.addOverView(ov);
+	    	_MapApp.addMapEventListener(EzEvent.MAP_ZOOMCHANGE,function(data){
+	    		/**
+	    		if(data.zoomLevel <10){
+	    			if(tileLyr0!=null){
+	    				var temArr = _MapApp.getGroupLayer();
+	    				temArr[0].getLayers().removevalue(tileLyr0);
+	    				temArr[0].getLayers().removevalue(tilehotspotLyr0);
+	    				_MapApp.refresh();
+	    			}
+	    			clearAll();
+	    		}*/
+	    	});
+	    	_MapApp.hideMapServer(); 
+//	    	zoomTo(12);
+	    }
+
+	    function getWord(word){
+	    	word = $.trim(word);
+	    	/*
+			if(word=="济南"){
+				return word;
+			}
+			var lastw = word.substr(word.length-1);
+			if(lastw=="东"||lastw=="西"||lastw=="南"||lastw=="北"){
+				var prew = word.substr(0,word.length-1);
+				return prew;
+			}else{
+				return word;
+			}*/
+	    	return word;
+		}
+
+
+	    function getNotExistCoordinate(keyword) {
+            var url = "http://ditu.google.cn/maps/api/geocode/json?address=" + encodeURIComponent(keyword) + "&sensor=false" + "&randomNum=" + Math.random();
+            $.ajax({
+                url: url,
+                dataType: 'json',
+                success: function(data) {
+                    if (data.status == 'OK') {
+                        console.log(",{\n"
+                        		+"\t\"name\" : \""+keyword+"\",\n"
+                        		+"\t\"x\" : "+data.results[0].geometry.location.lng+",\n"
+                        		+"\t\"y\" : "+data.results[0].geometry.location.lat+"\n"
+                            	+"}");
+                    }
+                    else {
+                        alert("没找到你要查询的位置，请重新输入！");
+                    }
+                },
+                error: function() {
+                    alert("网络繁忙，请重试！");
+                }
+            });
+        }
+
+	    function getPointMinMax(points,point){
+		    var back = new Array();	
+		    var minpoint;
+		    var maxpoint;
+			if(points==null){
+				minpoint = point;
+				maxpoint = point;
+			}else{
+				var minx,miny;
+				if(points[0].x > point.x){
+					minx = point.x;
+				}else{
+					minx = points[0].x;
+				}
+
+				if(points[0].y > point.y){
+					miny = point.y;
+				}else{
+					miny = points[0].y;
+				}
+
+				minpoint = new Point(minx,miny);
+				var maxx,maxy;
+				if(points[1].x > point.x){
+					maxx = points[1].x;
+				}else{
+					maxx = point.x;
+				}
+
+				if(points[1].y > point.y){
+					maxy = points[1].y;
+				}else{
+					maxy = point.y;
+				}
+				maxpoint = new Point(maxx,maxy);
+			}
+
+			back.push(minpoint);
+			back.push(maxpoint);
+			return back;
+	    }
+        
+	    function query(){
+	    	if($.trim($("#passenger_name").val())==""){
+	    		alert("乘车人员不能为空");
+				return;
+	    	}
+
+	    	/*
+	    	if($.trim($("#startdate").val())==""){
+	    		alert("起始乘车日期不能为空");
+				return;
+	    	}
+
+	    	if($.trim($("#enddate").val())==""){
+	    		alert("终止乘车日期不能为空");
+				return;
+	    	}*/
+	    	var keyword;
+	    	if(/^[\u4e00-\u9fa5]+$/.test($("#passenger_name").val())){
+	    	    keyword = {passenger_name:$("#passenger_name").val()};
+	    	}else{
+	    		keyword = {zjh:$("#passenger_name").val()};
+	    	}
+		    /*
+		    if($.trim($("#passenger_name").val())==""&&$.trim($("#startdate").val())==""&&$.trim($("#enddate").val())==""&&$.trim($("#train_number").val())==""&&$.trim($("#start_station").val())==""&&$.trim($("#end_station").val())==""){
+				alert("请输入查询条件");
+				return;
+		    }*/
+
+  			  
+		    var param = {startdate:$("#startdate").val(),enddate:$("#enddate").val(),train_number:$("#train_number").val(),start_station:$("#start_station").val(),end_station:$("#end_station").val(),page:1};
+		    $.extend(param, keyword);
+			$("#pager").pagination(baseurl+"/Query",param,function(data){
+				_MapApp.clearOverlays();
+				$("#pinfo").html("");
+				var len = data.result.length;
+				var content = "";
+				var points = null;
+				for ( var i = 0; i < len; i++) {
+					var temp = data.result[i];
+
+					var icon_start = new Icon();// 构造一个图标类
+					icon_start.image="images/qd.png";
+					icon_start.height=24;
+					icon_start.width=24;
+
+					var icon_end = new Icon();// 构造一个图标类
+					icon_end.image="images/zd.png";
+					icon_end.height=24;
+					icon_end.width=24;
+
+					var qi = getWord(temp[8]);
+					var zh = getWord(temp[9]);
+					var point1 = $.EzSearch.getCityPoint(qi);
+					if(point1==undefined){
+						console.error("找不到"+qi+"坐标");
+						getNotExistCoordinate(qi);
+					}
+					points = getPointMinMax(points,new Point(point1[0],point1[1]));
+					
+					var point2 = $.EzSearch.getCityPoint(zh);
+					if(point2==undefined){
+						console.error("找不到"+zh+"坐标");
+						getNotExistCoordinate(zh);
+					}
+					points = getPointMinMax(points,new Point(point2[0],point2[1]));
+					var marker1 = new Marker(new Point(point1[0],point1[1]),icon_start);
+					var marker2 = new Marker(new Point(point2[0],point2[1]),icon_end);
+					_MapApp.addOverlay(marker1);
+					_MapApp.addOverlay(marker2);
+					if(i==0){
+						content += "<div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12 unitcontent topm\">";
+					}else{
+						content += "<div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12 unitcontent\">";
+					}
+					content += "<h4>购票信息</h4>";
+					content += "<dl class=\"dl-horizontal\">";
+					content += "<dt>乘客姓名</dt>";
+					var name = temp[0]==null?'无数据':temp[0];
+					content += "<dd>"+name+"</dd>";
+					content += "<dt>证件号</dt>";
+					content += "<dd>"+temp[10]+"</dd>";
+					content += "<dt>购票车站</dt>";
+					content += "<dd>"+temp[1]+"</dd>";
+					content += "<dt>购票时间</dt>";
+					content += "<dd>"+temp[2]+"</dd>";
+					content += "<dt>票号</dt>";
+					content += "<dd>"+temp[3]+"</dd>";
+					content += "</dl><h4>乘车信息</h4>";
+					content += "<dl class=\"dl-horizontal\">";
+					content += "<dt>乘车日期</dt>";
+					content += "<dd>"+temp[4]+"</dd>";
+					content += "<dt>车次</dt>";
+					content += "<dd>"+temp[5]+"</dd>";
+					content += "<dt>车厢号</dt>";
+					content += "<dd>"+temp[6]+"</dd>";
+					content += "<dt>座位号</dt>";
+					content += "<dd>"+temp[7]+"</dd>";
+					content += "<dt>出发站</dt>";
+					content += "<dd class=\"qi\">"+temp[8]+"</dd>";
+					content += "<dt>到达站</dt>";
+					content += "<dd class=\"zh\">"+temp[9]+"</dd></dl></div>";
+				}
+				$("#pinfo").html(content);
+				if(points!=null)
+					_MapApp.centerAndZoom(new Point((points[0].x+points[1].x)/2,(points[0].y+points[1].y)/2), 7);
+				initInfoContent();
+			});
+			
+//			_MapApp.zoomTo(7);
+	    }
+    --></script>
+</head>
+<body>
+	<div class="navbar navbar-default navbar-static-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html" style="padding: 0"><img src="images/logo.png"></a>
+        </div>
+        <!--<div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a href="#">Separated link</a></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../navbar/">Default</a></li>
+            <li class="active"><a href="./">Static top</a></li>
+            <li><a href="../navbar-fixed-top/">Fixed top</a></li>
+          </ul>
+        </div>/.nav-collapse -->
+      </div>
+    </div>
+    <div class="container btm">
+    	<div class="form-inline" role="form">
+		  <div class="form-group" style="width: 20%">
+		    <label for="passenger_name" class="fl jianju">姓名</label>
+		    <input type="text" id="passenger_name" class="form-control input-sm"> 
+		  </div>
+		  <div class="form-group" style="width: 20%">
+		    <label for="passenger_idcard" class="fl jianju">身份证</label>
+		    <input type="text" id="passenger_idcard" class="form-control input-sm"> 
+		  </div>
+		
+		  <div class="form-group" style="width: 40%">
+		    <label for="startdate">乘车日期</label>
+	    	<div class="input-group input-group-sm">
+			    <input type="text" id="startdate" value="" readonly class="form-control">
+			    <span class="input-group-addon" style="padding: 3px 5px">
+			    	<img onclick="WdatePicker({el:$dp.$('startdate')})" src="js/My97DatePicker/skin/datePicker.gif"  width="16" height="22"> 
+		    	</span>
+    		</div>
+    		<label for="enddate">-</label>
+    		<div class="input-group input-group-sm">
+			    <input type="text" id="enddate" value="" readonly class="form-control">
+			    <span class="input-group-addon" style="padding: 3px 5px">
+			    	<img onclick="WdatePicker({el:$dp.$('enddate')})" src="js/My97DatePicker/skin/datePicker.gif"  width="16" height="22"> 
+		    	</span>
+    		</div>
+		  </div> 
+		  
+		  <div class="form-group">
+		 	<button type="button" class="btn btn-primary" onclick="query()">搜索</button>
+		  </div>
+		</div>
+		
+		<div class="form-inline" role="form">
+		  <div class="form-group" style="width: 20%">
+		    <label for="train_cc" class="fl jianju">车次</label>
+		    <input type="text" id="train_cc" class="form-control input-sm"> 
+		  </div>
+		  <div class="form-group" style="width: 40%">
+		    <label for="train_startdate">乘车日期</label>
+	    	<div class="input-group input-group-sm">
+			    <input type="text" id="train_startdate" value="" readonly class="form-control">
+			    <span class="input-group-addon" style="padding: 3px 5px">
+			    	<img onclick="WdatePicker({el:$dp.$('train_startdate')})" src="js/My97DatePicker/skin/datePicker.gif"  width="16" height="22"> 
+		    	</span>
+    		</div>
+    		<label for="enddate">-</label>
+    		<div class="input-group input-group-sm">
+			    <input type="text" id="train_enddate" value="" readonly class="form-control">
+			    <span class="input-group-addon" style="padding: 3px 5px">
+			    	<img onclick="WdatePicker({el:$dp.$('train_enddate')})" src="js/My97DatePicker/skin/datePicker.gif"  width="16" height="22"> 
+		    	</span>
+    		</div>
+		  </div> 
+		  <div class="form-group">
+		    <label for="train_start" class="fl jianju">出发站</label>
+		    <input type="text" id="train_start" class="form-control input-sm"> 
+		    <label for="train_end" class="fl jianju">-</label>
+		    <input type="text" id="train_end" class="form-control input-sm"> 
+		  </div>
+		  <div class="form-group">
+		 	<button type="button" class="btn btn-primary" onclick="query()">搜索</button>
+		  </div>
+		</div>
+    </div>
+    
+    
+    <div class="container">
+		<div class="row">
+			<hr>
+		</div>
+    </div>
+	<div class="container">
+		<div class="row">
+		  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+		  	<div class="row" id="pinfo">
+		  	<!--
+		  		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 unitcontent topm">
+		  			<h4>购票信息</h4>
+		  			<dl class="dl-horizontal">
+					  <dt>购票时间</dt>
+					  <dd>2014年2月6日</dd>
+					  <dt>购票车站</dt>
+					  <dd>邯郸</dd>
+					  <dt>票号</dt>
+					  <dd>B03</dd>
+					</dl>
+					<h4>乘车信息</h4>
+		  			<dl class="dl-horizontal">
+		  			  <dt>乘车日期</dt>
+					  <dd>2014年2月6日</dd>
+					  <dt>车次</dt>
+					  <dd>G6713</dd>
+					  <dt>车厢号</dt>
+					  <dd>9</dd>
+					  <dt>座位号</dt>
+					  <dd>03C</dd>
+					  <dt>出发站</dt>
+					  <dd>北京</dd>
+					  <dt>到达站</dt>
+					  <dd>石家庄</dd>
+					</dl>
+		  		</div>-->
+		  	</div>
+		  	<div class="row" align="center"  id="pager">
+		  		<ul class="pagination pagination-sm">
+		  		<!-- 
+					  <li class="disabled"><a href="javascript:void(0)">&lt</a></li>
+					  <li class="disabled"><a href="javascript:void(0)">1</a></li>
+					  <li class="disabled"><a href="javascript:void(0)">2</a></li>
+					  <li class="disabled"><a href="javascript:void(0)">3</a></li>
+					  <li class="disabled"><a href="javascript:void(0)">4</a></li>
+					  <li class="disabled"><a href="javascript:void(0)">5</a></li>
+					  <li class="disabled"><a href="javascript:void(0)">&gt</a></li> -->
+				</ul>
+				<!-- 
+		  		<div class="pagination total-page"> 
+		  			<span>共</span><span class="pagecount">1</span><span>页</span>
+		  		</div>
+				<div class="pagination total-page">
+					<span>去第</span>
+					<input value="1" type="text" style="width: 29px;height: 20px;padding: 7px;margin: 3px"><span>页</span>
+					<button type="button" class="btn btn-primary btn-xs" style="margin: 3px" disabled="disabled">确定</button>
+		  		</div> -->
+		  	</div>
+		  </div>
+		  <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+		  		<div class="row">
+		  			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		  				<!-- Nav tabs -->
+						<ul class="nav nav-tabs" role="tablist">
+						  <li class="active"><a href="#mapline" role="tab" data-toggle="tab">线路地图</a></li>
+						  <!-- <li><a href="#train" role="tab" data-toggle="tab">车厢平面图</a></li>-->
+						</ul>
+						
+						<!-- Tab panes -->
+						<div class="tab-content">
+						  <div class="tab-pane active tabcpx" id="mapline">
+						  	<div id="map" style="width: 100%;height: 100%">
+						  	</div>
+						  </div>
+						  <!-- <div class="tab-pane tabcpx" id="train">开发中......</div>-->
+						</div>
+		  			</div>
+		  		</div>
+		  </div>
+		</div>
+	</div>
+	
+<footer class="bs-docs-footer" role="contentinfo">
+  <div class="container">
+    <p>Copyright © 2014 All Rights Reserved.</p>
+  </div>
+</footer>
+</body>
+</html>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        

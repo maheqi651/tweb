@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+ <html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>广州大数据可视化情报分析</title>
+    <link href="css/style.css" rel="stylesheet" />
+    
+     
+    <link rel="stylesheet" href="css/bootstrap.css" media="screen">
+    
+	<link rel='stylesheet' href='css/jquery-ui.css'>
+    <!-- <link rel='stylesheet' href='css/style1.css'> -->
+    
+    <style type="text/css">
+    	.topm{margin-top: 0px!important}
+    	.btm{margin-bottom:10px}
+    	.bs-docs-footer{margin-top: 100px;border-top:1px solid #e5e5e5;color: #777;padding-top: 40px}
+    	.pin{
+    		box-shadow:0 1px 3px rgba(0,0,0,0.3);
+    		-moz-box-shadow:0 1px 3px rgba(0,0,0,.3);
+    		-webkit-box-shadow:0 1px 3px rgba(0,0,0,.3);
+    	}
+    	.middle{margin: 0 auto;text-align: center;}
+    	.loading{text-align:center;border:double rgba(34,25,25,0.14);border-width:3px 0 0 0; }
+    	.unitcontent{border: 1px solid #e7e7e7;margin: 10px auto;cursor: pointer;font-size: 13px}
+    	.unitcontent h4,.unitcontent dl{margin: 0;padding: 0;font-size: 13px}
+    	.tabcpx{border-bottom:1px solid #ADAAAD;border-left: 1px solid #ADAAAD;border-right: 1px solid #ADAAAD; height: 850px}
+    	.total-page span,input,button{position: relative;float: left;padding: 5px 0px;display: inline-block;}
+    	.pagination{font-size: 12px}
+		 .modal-body tbody tr:hover{ background:#EEEEEE}
+		.container tbody tr:hover{ background:#EEEEEE}
+    </style>
+    
+    
+
+    <script src="js/prefixfree.min.js"></script>
+    <script src="js/modernizr.js"></script>
+  
+   <script src='js/jquery_and_jqueryui.js'></script>
+     <script  type="text/javascript"  src="js/bootstrap.js"></script>
+    <script   type="text/javascript" src="js/common.js"></script>
+      <script   type="text/javascript" src="js/relation.js"  charset="gbk"></script>
+     <script   type="text/javascript" src="js/paginationtest.js"    charset="gbk"></script>
+    <script type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script> 
+   
+    <script src="js/d3.v3.min.js" charset="utf-8"></script>  
+    <script src="js/graphshow.js" charset="utf-8"></script>  
+    
+    <script type="text/javascript">
+    
+    
+
+    function initPa(){
+    	 
+    	var strFullPath = window.document.location.href;
+    	//alert(strFullPath);
+    	var index = strFullPath.indexOf("?");
+    	if(index==-1){
+    		return;
+    	}
+    	var params = strFullPath.substr(index+1);
+    	var listarr=params.split("&");//ӎ˽
+    	for(i=0;i<listarr.length;i++){
+    		var arr = listarr[i].split("=");
+    		if(arr[0]=="keyword")
+    			{
+    			
+    			$("#idcard").val(arr[1]);
+    			 searchtotal();
+    			}
+    	 
+    		 
+    	}
+    	 
+    	
+    }
+    </script>
+     
+</head>
+<body    onload="onloadparm();initPa();"   style="background:#EFF3FF;overflow: none" >
+  <span id="top2"   >
+ 
+	<div class="navbar navbar-default navbar-static-top  " role="navigation" style="background-image: url('image/title_bg_L.png');margin-top:-20px;">
+      <div class="navbar-inner" style="background:none;">
+      <div class="navbar-container">
+     <br>
+        <div class="navbar-header  " style='height:70px;margin-left:27px;  margin-top: 5px;padding-top: 10px; '>
+          <img src="image/logo_L.png" height="46" width="490"> 
+        </div>
+      </div>
+      </div>
+    </div>
+    
+      <div class="container">
+      <br>
+	 <div class="row" style='margin-top:-5px;'>
+                    <div class='col-lg-5 col-md-5 col-sm-5 col-xs-5'> <label  for="idcard"  id="idcartlabel">证件号 </label>
+                 <div class="input-group input-group-sm">
+                 
+                 
+                 <div class="input-group-btn">
+			        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+			        <span id="fielddesc">关系人查询 </span><span class="caret"></span></button>
+			        <ul class="dropdown-menu" role="menu" id="qfield">
+			          <li><a onclick="chosef('关系人查询')">关系人查询</a></li>
+			          <li><a onclick="chosef('关系路径分析')">关系路径分析</a></li> 	          
+			        </ul>
+			      </div> 
+                    <input type="text" id="idcard" class="form-control" placeholder='证件号'  > 
+                    
+                   <span class='input-group-btn' >
+                            <button class='btn  btn-primary' type='button' onclick='searchtotal()'>查&nbsp; &nbsp; 询</button>
+                    </span>  
+                                     
+                   
+					</div>
+					
+					 </div>
+					 
+					 
+					 <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2' id='startdate01'>
+                    
+                      <label  for="startdate">&nbsp;</label> <div class="input-group input-group-sm">
+				       
+                    <button class='btn  btn-success btn-sm' type='button' onclick='showcondition()'>选择条件</button>
+                     </div> </div>
+                     
+                     
+                     <div class='col-lg-5 col-md-5 col-sm-5 col-xs-5'  >
+                     
+                     <div style="float: left;width:100%;margin-left:10%;visibility:hidden  " id="persontable">
+			 
+		 
+			<table border="0px" cellspacing="0" class="table_style table_font_center" width="90%" 
+			style="table-layout: fixed;margin-bottom:0px;">
+				<tbody><tr>
+					<td style="width:28%">姓名:</td>
+					<td id="name">无/td>
+					<td rowspan="5"  align="center" style="width:110px">
+					<div style="float:left;  ">
+								 
+								 <a id="imagedzda" style="cursor: pointer;"> 
+								 <img    id="imgperson"  src=""  width="106" height="126"  /><!--  onload="getImg(this);" -->
+                                 </a> <div class="imgHide">
+									<div class="picInfo"  id="picInfo" >点击浏览个人信息</div>
+                                </div>
+							</div>
+					 </td>
+				</tr>
+				<tr>
+					<td>身份证:</td>
+					<td id="idcode">无</td>
+				</tr>
+				<tr>
+					<td>性别:</td>
+					<td id="sex01">无</td>
+				</tr>
+				<tr>
+					<td>电话:</td>
+					<td id="phonenum">无</td>
+				</tr>
+				<tr>
+					<td>出生地:</td>
+					<td id="address">无</td>
+				</tr>
+			 
+			</tbody></table>
+
+		</div>
+                     
+                     </div>
+                     
+                
+     
+    </div>
+
+ 
+		
+
+		</div>
+		</span>
+          <div class="container"> <div class="row" style='margin-top:0px;'>
+  		  			<div class="col-md-12">
+		  				<!-- Nav tabs -->
+						<ul class="nav nav-tabs " role="tablist" id='tabliststest' style="font-weight: bold;" >
+						 <li id='mapli4' class="active"  onclick='xianshi()'  ><a   href="#mapline4" role="tab"    id='biaoqian4' data-toggle="tab" ><span class='glyphicon glyphicon-home' ></span>同住宿</a></li>
+                         <li id='mapli5' ><a  onclick='xianshi()' href="#mapline5" role="tab"    id='biaoqian5' data-toggle="tab"  ><span class='glyphicon glyphicon-globe'  ></span>同上网</a></li>
+						 <li  id='mapli1'><a  onclick='xianshi()' href="#mapline1"  id='biaoqian1' role="tab" data-toggle="tab" ><span class='glyphicon glyphicon-book' ></span>同案</a></li>
+                         <li id='mapli2' ><a  onclick='xianshi()'  href="#mapline2" role="tab"   id='biaoqian2' data-toggle="tab"  ><span class='glyphicon glyphicon-lock'  ></span>同监室 </a></li>
+                        <!-- <li id='mapli3' onclick='yinchang()'><a   href="#mapline3" role="tab"   id='biaoqian3'  data-toggle="tab"  ><span class='glyphicon glyphicon-user' ></span>同户 </a></li>
+                         --> 
+                           <li id='mapli6'  ><a  onclick='xianshi()'  href="#mapline6" role="tab"   id='biaoqian6'  data-toggle="tab"  >
+                               <span class='glyphicon glyphicon-ban-circle' ></span>同车违章 </a></li>
+                                <li id='mapli7' onclick='yinchang()'><a   href="#mapline7 " role="tab"   id='biaoqia7'  data-toggle="tab"  >
+                               <span class='glyphicon glyphicon-user' ></span>人员关系图 </a></li>
+						  <!-- <li><a href="#train" role="tab" class='btn btn-success' data-toggle="tab">车厢平面图</a></li>-->
+						</ul>
+						
+						<!-- Tab panes -->
+						<div class="tab-content">
+						 <div class="tab-pane  active tabcpx" id="mapline4"><br/>
+						  	<div id="map4" style="width: 100%;max-height: 100%;  min-height: 40%; ">
+						  	</div>
+						  	 <div class="row" align="center"  id="pager4">
+					                <ul class="pagination pagination-sm" id="pagerculom4">
+									</ul>
+		  	                   </div>
+						  </div>
+						  <div class="tab-pane  tabcpx" id="mapline5"><br/>
+						  	<div id="map5" style="width: 100%;max-height: 100%; min-height: 40%;   ">   
+						  	</div>
+						  	<br>
+						  	    <div class="row" align="center"  id="pager5">
+					                <ul class="pagination pagination-sm" id="pagerculom5">
+									</ul>
+		  	                   </div>
+						  </div>
+						  <div class="tab-pane  tabcpx" id="mapline1">
+						  <br/>
+						  	 <div id="map1" style="width: 100%;max-height: 100%; min-height: 60%;  ">
+                             <br>
+							 </div>
+							  <div class="row" align="center"  id="pager1">
+					                <ul class="pagination pagination-sm" id="pagerculom1">
+									</ul>
+		  	                  </div>
+     
+                              </div>
+							
+						   
+						  <div class="tab-pane  tabcpx" id="mapline2"><br/>
+						  	<div id="map2" style="width: 100%;   min-height: 60%; ">
+						  	</div>
+						  	 <div class="row" align="center"  id="pager2">
+					                <ul class="pagination pagination-sm" id="pagerculom2">
+									</ul>
+		  	                   </div>
+						  </div>
+						 <!--  <div class="tab-pane  tabcpx" id="mapline3"><br/>
+						  	<div id="map3" style="width: 100%;max-height: 100%; min-height: 60%;   ">
+						  	</div>
+						  	 <div class="row" align="center"  id="pager3">
+					                <ul class="pagination pagination-sm" id="pagerculom3">
+									</ul>
+		  	                   </div>
+						  </div>-->
+						   
+						    <div class="tab-pane  tabcpx" id="mapline6"><br/>
+						  	<div id="map6" style="width: 100%;  min-height: 40%;   ">
+						  	</div>
+						  	 <div class="row" align="center"  id="pager6">
+					                <ul class="pagination pagination-sm" id="pagerculom6">
+									</ul>
+		  	                   </div>
+						  </div>
+						  
+						     <div   name="relationmap" class="tab-pane  tabcpx" id="mapline7"  style="  max-height:850px; "> 
+							 
+							 <div class='col-lg-10 ' style=" font-size:12px;width:80%" >&nbsp;
+							 </div>
+					 <div class='col-lg-2  '  style=" font-size:13px;width:20%;">
+						　
+						<div class="input-group input-group-sm" style=" padding-left:8px;">
+						    <font>画布等级&nbsp;</font> 
+							<select id="hbid"　style="line-height:20px;height:22px;width:87px;">
+								<option value="1">800*600</option>
+								<option value="1.5">1200*900</option>
+								<option value="2">1600*1200</option>
+								<option value="3">2400*1800</option>
+								<option value="4">3200*2400</option>
+								<option value="5">4000*3000</option>
+								<option value="6">4800*3600</option>
+								<option value="7">5600*4200</option>
+								<option value="8">6400*4800</option>
+							</select>
+							 &nbsp;
+							<a onclick="dorefalshg()"  style="margin-top: -3px;" class="btn btn-default btn-xs" 　 ><i class="glyphicon glyphicon-refresh"></i>刷新</a>
+						</div>
+						 
+						<div class="input-group input-group-sm" style=" padding-left:8px;margin-top: 10px;">
+						  <font >照片等级&nbsp;</font> 
+							<select id="zpid"　style="line-height:20px;height:22px;width:87px;">
+								<option value="5">20*15</option>
+								<option value="9">36*27</option>
+								<option value="12">48*36</option>
+								<option value="14">56*42</option>
+								<option value="18" selected="selected">72*54</option>
+								<option value="27">108*81&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+							</select>&nbsp;&nbsp;
+							 <a onclick="xianshi()" style="margin-top: -3px;" class="btn btn-warning btn-xs" 　 ><i class="glyphicon glyphicon-repeat"></i>返回</a>
+							
+						</div>
+					</div>
+					   
+								 
+								 
+									 
+							 
+                            
+
+                      <div class="col-lg-12" style="max-width:100%;  max-height:80%; overflow: auto;">
+                      <div id="map7"   >
+                      </div>
+                      </div>
+
+							   
+							       
+						   	   
+						  </div>
+						  <!-- <div class="tab-pane tabcpx" id="train">开发中......</div>-->
+						</div>
+		  			</div></div>
+		 </div>
+	 
+</body>
+<DIV id='loadquery' style="position:absolute; left:40%; top:400px; visibility:hidden;width:227px; height:20px; z-index:1">
+<img src='images/loading.gif' width='80px' height='80px'/></div>
+ <div class="modal fade" id="myModal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel5" aria-hidden="true" class='container' style=''>
+  <div class="modal-dialog" >
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel5">Modal title</h4>
+      </div>
+      <div class="modal-body"   id='desp'>
+        
+        &nbsp;
+      
+       
+        
+      </div> 
+      <div class="modal-footer" style="text-align: right">
+       <a type="button" class="btn btn-default" data-dismiss="modal">Close</a> 
+     </div>
+     </div>
+  </div>
+</div>
+
+
+ <div class="modal fade" id="myModal55" tabindex="-1" role="dialog" aria-labelledby="myModalLabel55" aria-hidden="true" class='container' style=''>
+  <div class="modal-dialog" >
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel55">Modal title</h4>
+      </div>
+      <div class="modal-body"   id='desp55'>
+        
+      </div>
+       </div>
+      <div class="modal-footer" style="text-align: right">
+       
+          <a type="button" class="btn btn-default" data-dismiss="modal">Close</a> 
+      </div>
+   
+  </div>
+</div>
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" class='container' >
+  <div class="modal-dialog" style='width:98%'>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body"  >
+        
+        <div  style="max-height:400px;overflow:auto">
+         <table   class="table table-bordered"  id="pagesamecart">
+          
+     
+       </table> 
+       </div>
+         
+       
+      </div>
+      <div class="modal-footer" >
+       
+       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
+         
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="myModal9" tabindex="-1" role="dialog" aria-labelledby="myModalLabel9" aria-hidden="true" class='container' >
+  <div class="modal-dialog" style='width:40%'>
+    <div class="modal-content">
+      <div class="modal-header" style="background: #3171AD;height: 40px;line-height: 40px;">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h5 class="modal-title" id="myModalLabel9" style='color:white;margin:-5px;font-weight: bold; '>Modal title</h5>
+      </div>
+      <div class="modal-body"  style='min-height:390px;'>
+      <font style='color:#3171AD;font-size: 18px;font-weight: bold;'>查询条件</font> 
+      <hr style="border-color:#3171AD;margin-top: 5px;margin-bottom: 5px;">　
+				<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'
+					style="padding-bottom: 30px;margin-top: -20px; ">
+					<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' id='enddate01'>
+						 关系人深度  
+						<div class="input-group input-group-sm">
+							<select class="form-control input-sm "  id="deapid"　 style="width: 140px;">
+								<option value="1">一层关系</option>
+								<option value="2">二层关系</option>
+								<option value="3">三层关系</option>
+							</select>
+						</div>
+					</div>
+
+					<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' id='startdate01'>
+
+						 日期(起) 
+						<div class="input-group input-group-sm">
+							<input type="text" id="startdate" value="" readonly
+								class="form-control input-sm"> <span
+								class="input-group-addon" style="padding: 3px 5px"> <img
+								onClick="WdatePicker({el:$dp.$('startdate')})"
+								src="js/My97DatePicker/skin/datePicker.gif" width="16"
+								height="22">
+							</span>
+						</div>
+					</div>
+
+					<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' id='enddate01'>
+
+						 日期(终) 
+						<div class="input-group input-group-sm">
+							<input type="text" id="enddate" value="" readonly
+								class="form-control input-sm  "　> <span
+								class="input-group-addon" style="padding: 3px 5px;"> <img
+								onClick="WdatePicker({el:$dp.$('enddate')})"
+								src="js/My97DatePicker/skin/datePicker.gif" width="16"
+								height="22">
+							</span>
+						</div>
+					</div>
+				</div>
+				<br>
+			 <font style='color:#3171AD;font-size: 18px;font-weight: bold;'>同住宿选择条件</font>
+			 <hr style="border-color:#3171AD;margin-top: 5px;margin-bottom: 5px;">　
+				
+				 
+         <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'  style="margin-top:-20px;padding-bottom: 20px;" > 
+         <div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'  > 
+             <input type="checkbox"    name='tssw' value='0201'>同一房间
+         </div>
+         <div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'  > 
+             <input type="checkbox"   name='tssw' value='0202'>同入住同退房 
+         </div>
+         <div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'  > 
+              <input type="checkbox"  name='tssw' value='0203'>同入住
+         </div>
+         <div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'  > 
+              <input type="checkbox"   name='tssw' value='0204'>同退房 
+         </div>
+        </div>
+       <hr>
+        
+         <font style='color:#3171AD;font-size: 18px;font-weight: bold;'>同上网选择条件</font>
+       <hr style="border-color:#3171AD;margin-top: 5px;margin-bottom: -10px;">　
+  <div class="input-group input-group-sm" style="margin-left:30px;">
+		    	  <div class="input-group input-group-sm">
+                    <span class='input-group-addon' >
+                                                                      间隔          
+                   </span>
+                   <input type="text" class='form-control' placeholder='20' value='20'  style='width:50px;' id='wbjgsj' onblur="isnumber()">
+                   <span class='input-group-addon' >
+                                                                    分钟    
+                   </span>
+                   </div>
+         </div>
+		<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'  style="margin-top:10px;"> 
+         <div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'  > 
+         
+         <div class="input-group input-group-sm">
+                 <input type="checkbox"   name='tswb' value='0301'>同上网同下网  
+		    	 </div>
+         </div>
+         
+         <div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'  > 
+             <input type="checkbox"   name='tswb' value='0302'> 同上网
+         </div>
+         <div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'  > 
+              <input type="checkbox"  name='tswb' value='0303'>同下网 
+         </div>
+         <div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'  > 
+              <input type="checkbox"   name='tswb' value='0304'>上网时间重叠
+         </div>
+        </div>
+       
+      </div>
+      <div class="modal-footer" style="text-align: right;border-color:#3171AD">
+              <a type="button" class="btn btn-success btn-sm" data-dismiss="modal" onclick="dosure()">确     认</a>
+              <a type="button" class="btn btn-danger btn-sm" data-dismiss="modal" onclick="docancel()">取    消</a> 
+      </div>
+    </div>
+  </div>
+</div>
+ 
+  　<!-- 　<script src="js/index.js"></script> -->
+    
+</html>
