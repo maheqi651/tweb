@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"   xmlns:web="http://java.sun.com/xml/ns/javaee" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+   
+   
+  
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
+  <listener>
+    <listener-class>com.easymap.ticket.listener.Initialization</listener-class>
+  </listener>
+  
+   
+   <filter>
+    <filter-name>IdentificationFilter</filter-name>
+    <filter-class>com.easymap.ticket.listener.IdentificationFilter</filter-class>
+  </filter>
+   <filter-mapping>
+    <filter-name>IdentificationFilter</filter-name>
+    <url-pattern>*.html</url-pattern>
+  </filter-mapping>
+  <context-param>
+    <param-name>config</param-name>
+    <param-value>/WEB-INF/config.properties</param-value>
+  </context-param>
+  
+   <servlet>
+    <description></description>
+    <display-name>TextAnalysisQuery</display-name>
+    <servlet-name>TextAnalysisQuery</servlet-name>
+    <servlet-class>com.easymap.ticket.servlet.TextAnalysisQuery</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TextAnalysisQuery</servlet-name>
+    <url-pattern>/TextAnalysisQuery</url-pattern>
+  </servlet-mapping>
+  
+ 
+
+
+   
+</web-app>

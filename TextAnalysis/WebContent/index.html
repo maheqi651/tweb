@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+ <html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>数据关系查询</title>
+   
+    <link href="css/style.css" rel="stylesheet" />
+     
+    <link rel="stylesheet" href="css/bootstrap.css" media="screen">
+	
+    <style type="text/css">
+    	.topm{margin-top: 0px!important}
+    	.btm{margin-bottom:10px}
+    	.bs-docs-footer{margin-top: 100px;border-top:1px solid #e5e5e5;color: #777;padding-top: 40px}
+    	.pin{
+    		box-shadow:0 1px 3px rgba(0,0,0,0.3);
+    		-moz-box-shadow:0 1px 3px rgba(0,0,0,.3);
+    		-webkit-box-shadow:0 1px 3px rgba(0,0,0,.3);
+    	}
+    	.middle{margin: 0 auto;text-align: center;}
+    	.loading{text-align:center;border:double rgba(34,25,25,0.14);border-width:3px 0 0 0; }
+    	.unitcontent{border: 1px solid #e7e7e7;margin: 10px auto;cursor: pointer;font-size: 13px}
+    	.unitcontent h4,.unitcontent dl{margin: 0;padding: 0;font-size: 13px}
+    	.tabcpx{border-bottom:1px solid #e7e7e7;border-left: 1px solid #e7e7e7;border-right: 1px solid #e7e7e7; height: 850px}
+    	.total-page span,input,button{position: relative;float: left;padding: 5px 0px;display: inline-block;}
+    	.pagination{font-size: 12px}
+		 .modal-body tbody tr:hover{ background:#EEEEEE}
+		.container tbody tr:hover{ background:#EEEEEE}
+	    </style>
+		<script type="text/javascript" src="js/jQuery.js"></script>
+		<script type="text/javascript" src="js/bootstrap.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script type="text/javascript" src="js/textanalysis.js" charset="gbk"></script>
+		
+		
+		
+		
+</head>
+<body   style="background:#EFF3FF;font-family: '微软雅黑';font-size: 16px;background: url('image/bg_pic.png');">
+  <span id="top2" >
+	<div class="navbar navbar-default navbar-static-top" role="navigation" style="background-image: url('image/title_bg_L.png');">
+      <div class="container">
+     <br>
+        <div class="navbar-header" style='height:70px;'>
+          <a class="navbar-brand" href="index.html" style="padding: 0"><img src="image/logo_L.png"></a>
+        </div>
+      </div>
+    </div>
+		<div class="container">
+		<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'  >&nbsp;</div>
+ <div class='col-lg-10 col-md-10 col-sm-10 col-xs-10'  >
+    	<div class="well" style="margin-bottom: 0px;">
+				<h5 style="margin-left: 5px;">请输入需要分析的文本:</h5>
+				<textarea title="hotkey: b" rel="tooltip" id="textcontent"
+					style="width: 99%; margin: 0px; height: 100px; font-size: 14px;"
+					placeholder="请求内容"></textarea>
+
+				<a class="btn btn-danger btn-xs" onclick='sendpost()'>分析文本</a>
+
+			</div>
+			</div>
+		</div>
+		<br>
+		<div class="container">
+		<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'  >&nbsp;</div>
+ <div class='col-lg-10 col-md-10 col-sm-10 col-xs-10'  >
+		<div class="well" style="margin-bottom: 0px;">
+		<h5 style="margin-left: 5px;"> 分析文本的返回结果:</h5>
+			<div class="tab-pane active" id="response-body-raw" style="min-height:300px;">
+				  <pre style="margin-left: 0px;min-height:270px;" id="resultcontent" > <br><br><br><br></pre>
+				 
+				 
+				 
+				 </div>
+			</div>
+			</div>
+		</div></body>
+<DIV id='loadquery' style="position:absolute; left:40%; top:400px; visibility:hidden;width:227px; height:20px; z-index:1">
+<img src='images/loading.gif' width='80px' height='80px'/></div>
+ <div class="modal fade" id="myModal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel5" aria-hidden="true" class='container' style=''>
+  <div class="modal-dialog" >
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel5">Modal title</h4>
+      </div>
+      <div class="modal-body"   id='desp'>
+        
+        &nbsp;
+      
+       
+        
+      </div> 
+      <div class="modal-footer" style="text-align: right">
+       <a type="button" class="btn btn-default" data-dismiss="modal">Close</a> 
+     </div>
+     </div>
+  </div>
+</div>
+
+
+ <div class="modal fade" id="myModal55" tabindex="-1" role="dialog" aria-labelledby="myModalLabel55" aria-hidden="true" class='container' style=''>
+  <div class="modal-dialog" >
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel55">Modal title</h4>
+      </div>
+      <div class="modal-body"   id='desp55'>
+        
+      </div>
+       </div>
+      <div class="modal-footer" style="text-align: right">
+       
+          <a type="button" class="btn btn-default" data-dismiss="modal">Close</a> 
+      </div>
+   
+  </div>
+</div>
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" class='container' >
+  <div class="modal-dialog" style='width:98%'>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body"  >
+        
+        <div  style="max-height:400px;overflow:auto">
+         <table   class="table table-bordered"  id="pagesamecart">
+          
+     
+       </table> 
+       </div>
+         
+       
+      </div>
+      <div class="modal-footer" >
+       
+       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
+         
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="myModal9" tabindex="-1" role="dialog" aria-labelledby="myModalLabel9" aria-hidden="true" class='container' >
+  <div class="modal-dialog" style='width:60%'>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel9">Modal title</h4>
+      </div>
+      <div class="modal-body"  style='min-height:400px;'>
+      
+      
+     
+      
+       <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' style="padding-bottom: 20px;">
+
+
+					<div class='col-lg-3 col-md-3 col-sm-3 col-xs-3' id='startdate01'>
+
+						<label for="startdate">日期(起)</label>
+						<div class="input-group input-group-sm">
+							<input type="text" id="startdate" value="" readonly
+								class="form-control input-sm"> <span
+								class="input-group-addon" style="padding: 3px 5px"> <img
+								onClick="WdatePicker({el:$dp.$('startdate')})"
+								src="js/My97DatePicker/skin/datePicker.gif" width="16"
+								height="22">
+							</span>
+
+						</div>
+					</div>
+
+					<div class='col-lg-3 col-md-3 col-sm-3 col-xs-3' id='enddate01'>
+
+						<label for="enddate">日期(终) </label>
+						<div class="input-group input-group-sm">
+							<input type="text" id="enddate" value="" readonly
+								class="form-control input-sm  "　> <span
+								class="input-group-addon" style="padding: 3px 5px;"> <img
+								onClick="WdatePicker({el:$dp.$('enddate')})"
+								src="js/My97DatePicker/skin/datePicker.gif" width="16"
+								height="22">
+							</span>
+
+						</div>
+					</div>
+				 
+				</div>
+      <h4 style='color:blue'>同住宿选择条件</h4>
+        <hr>
+        
+       
+
+        
+        <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'  style="margin-top:20px;padding-bottom: 20px;" > 
+         <div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'  > 
+             <input type="checkbox" checked="checked"  name='tssw' value='0201'>同时同旅馆同一房间人员 
+         </div>
+         <div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'  > 
+             <input type="checkbox" checked="checked"  name='tssw' value='0202'>同时同旅馆同入住同退房 
+         </div>
+         <div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'  > 
+              <input type="checkbox" checked="checked" name='tssw' value='0203'>同时同旅馆同入住
+         </div>
+         <div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'  > 
+              <input type="checkbox" checked="checked" name='tssw' value='0204'>同时同旅馆同退房 
+         </div>
+        </div>
+       <hr>
+        <br/> <br/>
+        <h4 style='color:blue'>同上网选择条件</h4>
+        <hr>
+
+				 
+
+ <div class="input-group input-group-sm">
+		    	 
+		    	 <div class="input-group input-group-sm">
+					   
+                       
+                                          
+                   
+                    <span class='input-group-addon' >
+                                                                      间隔          
+                   </span>
+                         <input type="text" class='form-control' placeholder='20' value='20'  style='width:50px;' id='wbjgsj' onblur="isnumber()">
+                     <span class='input-group-addon' >
+                                                                    分钟    
+                   </span></div>
+                   
+		    	</div>
+				<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'  style="margin-top:20px;"> 
+         <div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'  > 
+         
+         <div class="input-group input-group-sm">
+                 <input type="checkbox" checked="checked" name='tswb' value='0301'>同时同网吧上网下网  
+		    	 </div>
+         </div>
+         
+         <div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'  > 
+             <input type="checkbox" checked="checked" name='tswb' value='0302'> 同时同网吧上网
+         </div>
+         <div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'  > 
+              <input type="checkbox" checked="checked" name='tswb' value='0303'>同时同网吧下网 
+         </div>
+         <div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'  > 
+              <input type="checkbox" checked="checked" name='tswb' value='0304'>同网吧上网时间重叠
+         </div>
+        </div>
+       
+      </div>
+      <div class="modal-footer" style="text-align: right;">
+              <a type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Close</a> 
+      </div>
+    </div>
+  </div>
+</div>
+
+   
+</html>
