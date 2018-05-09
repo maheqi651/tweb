@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2018-4-27 18:39:41 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="founder.model2.ApplyTable" table="apply_table" catalog="controlsys">
+        <composite-id name="id" class="founder.model2.ApplyTableId">
+            <key-property name="type" type="string">
+                <column name="type" length="30" />
+            </key-property>
+            <key-property name="zjhm" type="string">
+                <column name="zjhm" length="50" />
+            </key-property>
+            <key-property name="desp" type="string">
+                <column name="desp" length="300" />
+            </key-property>
+            <key-property name="userid" type="string">
+                <column name="userid" length="50" />
+            </key-property>
+            <key-property name="userxm" type="string">
+                <column name="userxm" length="50" />
+            </key-property>
+            <key-property name="orgcode" type="string">
+                <column name="orgcode" length="100" />
+            </key-property>
+            <key-property name="orgname" type="string">
+                <column name="orgname" length="100" />
+            </key-property>
+            <key-property name="applytime" type="string">
+                <column name="applytime" length="20" />
+            </key-property>
+            <key-property name="status" type="java.lang.Integer">
+                <column name="status" />
+            </key-property>
+            <key-property name="dealxm" type="string">
+                <column name="dealxm" length="50" />
+            </key-property>
+            <key-property name="dealid" type="string">
+                <column name="dealid" length="50" />
+            </key-property>
+            <key-property name="dealorgcode" type="string">
+                <column name="dealorgcode" length="100" />
+            </key-property>
+            <key-property name="dealorgname" type="string">
+                <column name="dealorgname" length="100" />
+            </key-property>
+            <key-property name="dealinfo" type="string">
+                <column name="dealinfo" length="300" />
+            </key-property>
+            <key-property name="lockorderid" type="string">
+                <column name="lockorderid" length="64" />
+            </key-property>
+            <key-property name="locktime" type="string">
+                <column name="locktime" length="20" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="controlTable" class="founder.model2.ControlTable" update="false" insert="false" fetch="select">
+            <column name="lockorderid" length="64" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

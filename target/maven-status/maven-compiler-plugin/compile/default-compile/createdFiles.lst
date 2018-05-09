@@ -1,0 +1,13 @@
+founder\model\User.class
+founder\service\impl\UserService.class
+founder\dao\common\AbstractHibernateDao.class
+founder\web\UserController.class
+founder\web\HomeController.class
+founder\config\WebConfig.class
+founder\dao\IUserDao.class
+founder\service\impl\UserDao.class
+founder\service\impl\IUserService.class
+founder\config\RootConfig.class
+founder\config\testWebAppInitalizer.class
+founder\dao\common\IOperations.class
+founder\service\common\AbstractService.class

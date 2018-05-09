@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2018-4-27 18:39:41 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="founder.model2.Message" table="message" catalog="controlsys">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="controlTable" class="founder.model2.ControlTable" fetch="select">
+            <column name="orderid" length="64" />
+        </many-to-one>
+        <property name="userid" type="string">
+            <column name="userid" length="50" />
+        </property>
+        <property name="content" type="string">
+            <column name="content" length="300" />
+        </property>
+        <property name="addtime" type="string">
+            <column name="addtime" length="20" />
+        </property>
+        <property name="phone" type="string">
+            <column name="phone" length="20" />
+        </property>
+        <property name="userxm" type="string">
+            <column name="userxm" length="50" />
+        </property>
+    </class>
+</hibernate-mapping>
