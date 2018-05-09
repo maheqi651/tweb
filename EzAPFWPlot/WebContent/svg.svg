@@ -1,7 +1,0 @@
-<?xml version="1.0" standalone="no"?>
-<svg contentScriptType="text/ecmascript" width="500" height="410"  xmlns:xlink="http://www.w3.org/1999/xlink"  baseProfile="full" zoomAndPan="magnify" contentStyleType="text/css" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" version="1.0">
-  <rect name="qw01" fill="#C60000" x="187.5" y="10" width="125.0" height="40.0" stroke="#C60000"  onclick="javascript:window.location.href='index.html'"/>
-  <rect name="qw02" fill="#C645FF" x="10" y="185" width="125.0" height="40.0" stroke="#C645FF" onclick="qw02()"/>
-  <rect name="qw03" fill="#00B252" x="365" y="185" width="125.0" height="40.0" stroke="#00B252" onclick="qw03()"/>
-  <rect name="qw04" fill="#0071C6" x="187.5" y="360" width="125.0" height="40.0" stroke="#0071C6" onclick="qw04()"/>
- </svg>
